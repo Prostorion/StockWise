@@ -5,12 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     UserRepository repository;
 
     public UserServiceImpl(UserRepository repository) {
@@ -19,15 +17,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        User user = repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         user.getRoles().forEach(System.out::println);
         return org.springframework.security.core.userdetails.User
-                    .builder()
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .authorities(user.getRoles().stream()
-                            .map(role -> new SimpleGrantedAuthority(role.getName()))
-                            .collect(Collectors.toList()))
-                    .build();
+                .builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .authorities(user.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority(role.getName()))
+                        .collect(Collectors.toList()))
+                .build();
     }
 }
