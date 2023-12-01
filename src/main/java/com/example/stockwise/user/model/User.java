@@ -1,13 +1,17 @@
-package com.example.stockwise.user;
+package com.example.stockwise.user.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "users")
 public class User {
     @Id

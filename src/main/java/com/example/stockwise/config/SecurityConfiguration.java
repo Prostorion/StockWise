@@ -53,6 +53,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/api/v1/users/new", "/api/v1").permitAll();
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
                 .formLogin(Customizer.withDefaults());
