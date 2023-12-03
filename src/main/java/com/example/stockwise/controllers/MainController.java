@@ -1,23 +1,32 @@
 package com.example.stockwise.controllers;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.example.stockwise.services.MainService;
+import com.example.stockwise.user.model.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v1")
 public class MainController {
+    MainService mainService;
 
+    public MainController(MainService mainService) {
+        this.mainService = mainService;
+    }
 
     @GetMapping()
-    @ResponseBody
-    public String mainPage() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String mainPage(Model model) {
+        Optional<User> userOptional = mainService.getUser();
+        if (userOptional.isPresent()){
+            model.addAttribute(userOptional.get());
+            return "logged_main";
+        }
 
-        return "It works " + userDetails.getUsername() + " " + userDetails.getPassword();
+        return "main";
     }
 
     @GetMapping("/register")
@@ -25,4 +34,8 @@ public class MainController {
         return "register";
     }
 
+    @GetMapping("/login")
+    String login() {
+        return "login";
+    }
 }

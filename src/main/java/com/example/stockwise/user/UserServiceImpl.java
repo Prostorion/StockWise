@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,6 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveWorker(User user) throws Exception {
         saveOneRoleUser(user, "WORKER");
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     private void saveOneRoleUser(User user, String role) throws Exception {

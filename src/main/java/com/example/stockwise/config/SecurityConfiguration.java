@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfiguration {
 
     public SecurityConfiguration(UserDetailsService userDetailsService) {
@@ -56,7 +55,13 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/api/v1/users/new", "/api/v1").permitAll();
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
-                .formLogin(Customizer.withDefaults());
+                .formLogin((form -> form
+                        .loginPage("/api/v1/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/api/v1", true)
+                        .failureUrl("/api/v1/login?error=true")
+                        .permitAll()
+                ));
 
         return http.build();
     }

@@ -3,7 +3,7 @@ package com.example.stockwise.user;
 import com.example.stockwise.user.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.management.relation.RoleNotFoundException;
+import java.util.Optional;
 
 
 public interface UserService extends UserDetailsService {
@@ -14,4 +14,6 @@ public interface UserService extends UserDetailsService {
 
     void saveManager(User user) throws Exception;
     void saveWorker(User user) throws Exception;
+
+    Optional<User> findUserByUsername(String username);
 }
