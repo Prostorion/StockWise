@@ -1,11 +1,11 @@
 package com.example.stockwise.config;
 
 
+import com.example.stockwise.config.filters.WarehouseFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,16 +14,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    public SecurityConfiguration(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     UserDetailsService userDetailsService;
+    WarehouseFilter warehouseFilter;
+
+    public SecurityConfiguration(UserDetailsService userDetailsService, WarehouseFilter warehouseFilter) {
+        this.userDetailsService = userDetailsService;
+        this.warehouseFilter = warehouseFilter;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,7 +55,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/v1/users/new", "/api/v1").permitAll();
+                    auth.requestMatchers("/api/v1/users/new", "/api/v1", "/api/v1/users", "/register.js", "/error").permitAll();
+                    auth.requestMatchers("/api/v1/user", "/api/v1/warehouses/**","/api/v1/warehouses/{id}" ).hasAnyAuthority("ADMIN", "WORKER", "MANAGER");
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
                 .formLogin((form -> form
@@ -61,8 +65,14 @@ public class SecurityConfiguration {
                         .defaultSuccessUrl("/api/v1", true)
                         .failureUrl("/api/v1/login?error=true")
                         .permitAll()
-                ));
-
+                ))
+                .logout((logout -> logout
+                        .logoutSuccessUrl("/api/v1")
+                        .logoutUrl("/api/v1/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()))
+                .addFilterAfter(warehouseFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

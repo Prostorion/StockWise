@@ -1,4 +1,4 @@
-package com.example.stockwise.user.model;
+package com.example.stockwise.role;
 
 import jakarta.persistence.*;
 import lombok.*;

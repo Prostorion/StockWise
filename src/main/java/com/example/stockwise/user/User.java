@@ -1,5 +1,7 @@
-package com.example.stockwise.user.model;
+package com.example.stockwise.user;
 
+import com.example.stockwise.role.Role;
+import com.example.stockwise.warehouse.Warehouse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,5 +34,11 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_warehouses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "warehouse_id")
+    )
+    private Set<Warehouse> warehouses = new HashSet<>();
 }

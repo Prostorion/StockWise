@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StockWise</title>
+    <link rel="icon" th:href="@{/icon.svg}" type="image/svg+xml">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .col-fixed-width {
+            width: 33.33%;
+        }
+    </style>
+</head>
+<body id="body" data-bs-theme="dark">
+<div th:replace="~{fragments/header_template :: header}"></div>
+
+<div class="container my-2 px-3 py-3 text-center">
+    <h1 class="mx-auto my-3"> YOUR WAREHOUSES </h1>
+    <div class="col-md" id="content">
+        <table class="table text-start table-bordered" id="table">
+            <thead>
+            <tr class="fw-bold">
+                <th class="col-fixed-width">Name</th>
+                <th class="col-fixed-width">Address</th>
+                <th class="col-fixed-width text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+            <tr th:each="warehouse : ${warehouseList}" th:id="'warehouseTr'+${warehouse.id}">
+                <td th:text="${warehouse.name}"></td>
+                <td th:text="${warehouse.address}"></td>
+                <td>
+                    <div class="d-flex justify-content-around text-decoration-none">
+                        <a th:href="'/api/v1/warehouses/'+${warehouse.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-arrow-up-right-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.854 10.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096"/>
+                            </svg>
+                        </a>
+                        <a th:href="'/api/v1/warehouses/'+${warehouse.id}+'/settings'" class="text-secondary update-button" th:id="'upadateWarehouse ' + ${warehouse.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-gear" viewBox="0 0 16 16">
+                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                            </svg>
+                        </a>
+                        <a th:id="'deleteWarehouse ' + ${warehouse.id}" href="#" class="text-danger cursor-pointer delete-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+<!--            <tr>-->
+<!--                <td class="align-middle h-100">-->
+<!--                    <input type="text" id="warehouseNameInput" class="form-control" value="CHANGE">-->
+<!--                </td>-->
+<!--                <td class="align-middle h-100">-->
+<!--                    <input type="text" id="warehouseAddressInput" class="form-control" value="CHANGE">-->
+<!--                </td>-->
+<!--                <td class="align-middle">-->
+<!--                    <div class="text-center d-flex justify-content-around align-middle h-100">-->
+<!--                    <button class="btn btn-sm btn-outline-danger mx-1" onclick="location.reload()">Cansel</button>-->
+<!--                    <button type="submit" class="btn btn-sm btn-outline-warning mx-1" id="updateButton">Update</button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+            </tbody>
+        </table>
+        <div id="resultDiv"></div>
+        <div>
+            <button type="button" id="getForm" class="btn btn-outline-warning my-2">Add new warehouse</button>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/warehouses.js}"></script>
+</body>
+</html>
