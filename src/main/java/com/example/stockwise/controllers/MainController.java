@@ -1,9 +1,7 @@
 package com.example.stockwise.controllers;
 
 import com.example.stockwise.services.MainService;
-import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
-import com.example.stockwise.warehouse.Warehouse;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -47,7 +44,7 @@ public class MainController {
     }
 
     @GetMapping("/user")
-    public String userInfo(Model model){
+    public String userInfo(Model model) {
         model.addAttribute(userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user")));
         return "user_info";
     }

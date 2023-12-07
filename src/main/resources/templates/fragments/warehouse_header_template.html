@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>My Website</title>
     <!-- Additional header content goes here -->
 </head>
@@ -12,21 +12,26 @@
 <div th:fragment="warehouse_header">
     <div class="container my-2 px-3 py-3 text-center">
         <div class="mb-3">
-            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0" th:href="'/api/v1/warehouses/'+${warehouse.id}">
+            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
+               th:href="'/api/v1/warehouses/'+${warehouse.id}">
                 <h1 th:text="${warehouse.name.toUpperCase()} + ' - ' + ${warehouse.address}"></h1>
             </a>
         </div>
         <div class="mx-5">
-            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0" th:href="'/api/v1/warehouses/'+${warehouse.id}+'/items'">
+            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
+               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/items'">
                 <button class="btn  btn-warning">Items</button>
             </a>
-            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0" th:href="'/api/v1/warehouses/'+${warehouse.id}+'/users'">
+            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
+               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/users'">
                 <button class="btn btn-warning">Users</button>
             </a>
-            <a class=" link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0" th:href="'/api/v1/warehouses/'+${warehouse.id}+'/history'">
+            <a class=" link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
+               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/history'">
                 <button class="btn  btn-warning">History</button>
             </a>
-            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0" th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks'">
+            <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
+               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks'">
                 <button class="btn  btn-warning">Tasks</button>
             </a>
 

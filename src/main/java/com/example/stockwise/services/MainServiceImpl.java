@@ -1,6 +1,5 @@
 package com.example.stockwise.services;
 
-import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class MainServiceImpl implements MainService{
+public class MainServiceImpl implements MainService {
 
     UserService userService;
 

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class WarehouseServiceImpl implements WarehouseService{
+public class WarehouseServiceImpl implements WarehouseService {
 
     UserService userService;
     WarehouseRepository warehouseRepository;
@@ -22,7 +22,7 @@ public class WarehouseServiceImpl implements WarehouseService{
 
     @Override
     public void addWarehouse(Warehouse warehouse) throws Exception {
-        User user = userService.getUser().orElseThrow(()-> new UsernameNotFoundException("there is no user SERIOUS EXCEPTION"));
+        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user SERIOUS EXCEPTION"));
         validateWarehouse(user, warehouse);
         warehouseRepository.save(warehouse);
         warehouse = warehouseRepository.findByName(warehouse.getName()).orElseThrow(() -> new Exception("warehouse is not found SERIOUS EXCEPTION"));
@@ -49,9 +49,9 @@ public class WarehouseServiceImpl implements WarehouseService{
 
     @Override
     public void updateWarehouse(Long id, Warehouse newWarehouse) throws Exception {
-        User user = userService.getUser().orElseThrow(()-> new UsernameNotFoundException("there is no user SERIOUS EXCEPTION"));
+        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user SERIOUS EXCEPTION"));
         Warehouse oldWarehouse = getWarehouseById(id);
-        if (!oldWarehouse.getName().equals(newWarehouse.getName())){
+        if (!oldWarehouse.getName().equals(newWarehouse.getName())) {
             nameValidation(user, newWarehouse.getName());
         }
         addressValidation(newWarehouse.getAddress());
@@ -67,7 +67,7 @@ public class WarehouseServiceImpl implements WarehouseService{
 
     private void nameValidation(User user, String name) throws Exception {
 
-        if(user.getWarehouses().stream().anyMatch(w-> w.getName().equals(name))){
+        if (user.getWarehouses().stream().anyMatch(w -> w.getName().equals(name))) {
             throw new Exception(name + " is already exist");
         }
 

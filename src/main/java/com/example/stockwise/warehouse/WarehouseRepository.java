@@ -11,6 +11,7 @@ import java.util.Set;
 @Repository
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     Optional<Warehouse> findByName(String name);
+
     Set<Warehouse> findAllByUserSetContainsOrderByName(User user);
 
     void deleteById(@NonNull Long id);

@@ -24,7 +24,7 @@ public class WarehouseController {
     }
 
     @GetMapping()
-    public String warehouses(Model model){
+    public String warehouses(Model model) {
         User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
         model.addAttribute(user);
         Set<Warehouse> warehouses = warehouseService.getUserWarehouses(user);
@@ -34,24 +34,22 @@ public class WarehouseController {
 
     @PostMapping()
     @ResponseBody
-    public ResponseEntity<?> addWarehouse(@RequestBody Warehouse warehouse){
-        try{
+    public ResponseEntity<?> addWarehouse(@RequestBody Warehouse warehouse) {
+        try {
             warehouseService.addWarehouse(warehouse);
             return ResponseEntity.ok("warehouse added");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
         }
     }
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> deleteWarehouse(@PathVariable Long id){
-        try{
+    public ResponseEntity<?> deleteWarehouse(@PathVariable Long id) {
+        try {
             warehouseService.deleteWarehouseById(id);
             return ResponseEntity.ok("warehouse added");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
         }
     }
@@ -76,12 +74,11 @@ public class WarehouseController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> updateWarehouse(@PathVariable Long id, @RequestBody Warehouse warehouse){
-        try{
+    public ResponseEntity<?> updateWarehouse(@PathVariable Long id, @RequestBody Warehouse warehouse) {
+        try {
             warehouseService.updateWarehouse(id, warehouse);
             return ResponseEntity.ok("warehouse updated");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
         }
     }

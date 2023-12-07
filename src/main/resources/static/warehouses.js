@@ -81,7 +81,7 @@ body.addEventListener("click", (event) => {
     for (i = 0; i < deleteButtons.length; i++) {
         if (deleteButtons[i].contains(event.target)) {
             const warehouse_id = parseInt(deleteButtons[i].id.replace(/\D/g, ''), 10)
-            const userConfirmed = window.confirm("Are you sure you want to delete "+deleteButtons[i].parentNode.parentNode.parentNode.childNodes.item(1).textContent+"?");
+            const userConfirmed = window.confirm("Are you sure you want to delete " + deleteButtons[i].parentNode.parentNode.parentNode.childNodes.item(1).textContent + "?");
             if (userConfirmed) {
                 fetch(url + '/' + warehouse_id, {
                     method: "DELETE" // You can change this to "GET" or other HTTP methods
@@ -134,11 +134,11 @@ body.addEventListener("click", (event) => {
 
             const warehouse = {
                 id: warehouse_id,
-                name: document.getElementById("warehouseNameInput"+warehouse_id).value.trim(),
-                address: document.getElementById("warehouseAddressInput"+warehouse_id).value.trim(),
+                name: document.getElementById("warehouseNameInput" + warehouse_id).value.trim(),
+                address: document.getElementById("warehouseAddressInput" + warehouse_id).value.trim(),
             }
             event.preventDefault();
-            if (validateInput(document.getElementById("warehouseNameInput"+warehouse_id), document.getElementById("warehouseAddressInput"+warehouse_id))) {
+            if (validateInput(document.getElementById("warehouseNameInput" + warehouse_id), document.getElementById("warehouseAddressInput" + warehouse_id))) {
                 // Create a fetch request
                 fetch(url + "/" + warehouse_id, {
                     method: "PUT", // You can change this to "GET" or other HTTP methods

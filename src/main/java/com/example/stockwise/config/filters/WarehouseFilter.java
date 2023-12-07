@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -33,14 +32,14 @@ public class WarehouseFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse resp, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletResponse response=(HttpServletResponse) resp;
+        HttpServletResponse response = (HttpServletResponse) resp;
         // Extract the requested URL
         String requestURI = getRequestURI(request);
 
         // Check if the URL matches the expected pattern "/api/v1/warehouses/{id}"
         if (requestURI.matches("/api/v1/warehouses/\\d+(/.*)?")) {
             // Get the current user from the security context
-            UserDetails currentUser = mainService.getUserDetails().orElse(new User("ex",  "ex", new HashSet<>()));
+            UserDetails currentUser = mainService.getUserDetails().orElse(new User("ex", "ex", new HashSet<>()));
 
             // Extract the warehouse ID from the URL
             String[] parts = requestURI.split("/");

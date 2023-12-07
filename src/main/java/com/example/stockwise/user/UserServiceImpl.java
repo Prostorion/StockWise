@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isWarehouseAccessibleByUser(String username, Long requestedWarehouseId) {
         Optional<User> userOptional = findUserByUsername(username);
-        if (userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             Set<Warehouse> warehouses = userOptional.get().getWarehouses();
             return warehouses.stream().anyMatch(w -> Objects.equals(w.getId(), requestedWarehouseId));
         }

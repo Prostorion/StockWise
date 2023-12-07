@@ -12,7 +12,7 @@ const matchTasks = currentUrl.match(patternTasks);
 // If there is a match and the ID is a certain number (replace 'certainNumber' with your specific number)
 const buttons = document.querySelectorAll('.btn-warning');
 
-buttons.forEach(function(button) {
+buttons.forEach(function (button) {
     if (matchHistory && button.textContent.trim() === 'History') {
         button.classList.remove('btn-warning');
         button.classList.add('btn-outline-secondary'); // You can change this class to any other class you want
