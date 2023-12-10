@@ -3,6 +3,9 @@ package com.example.stockwise.user;
 import com.example.stockwise.role.Role;
 import com.example.stockwise.role.RoleRepository;
 import com.example.stockwise.warehouse.Warehouse;
+import com.example.stockwise.warehouse.WarehouseRepository;
+import com.example.stockwise.warehouse.WarehouseService;
+import org.springframework.expression.ExpressionException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,9 +28,12 @@ public class UserServiceImpl implements UserService {
 
     RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    WarehouseRepository warehouseRepository;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, WarehouseRepository warehouseRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
@@ -99,6 +105,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) throws Exception {
         userRepository.save(user);
+    }
+
+    @Override
+    public void addWorkerToWarehouse(User user, Long id) throws Exception {
+        addWorker(user);
+        User worker = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new Exception("user not found"));
+        Set<Warehouse> warehouseSet = new HashSet<>();
+        warehouseSet.add(warehouseRepository.findById(id).get());
+        user.setWarehouses(warehouseSet);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Set<User> getWarehouseUsers(Long id) throws Exception {
+        Warehouse warehouse = warehouseRepository.findById(id).get();
+        return userRepository.findAllByWarehousesContainingOrderByFirstname(warehouse);
     }
 
 

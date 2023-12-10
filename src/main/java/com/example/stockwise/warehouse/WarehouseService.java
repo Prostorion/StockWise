@@ -14,4 +14,5 @@ public interface WarehouseService {
     Warehouse getWarehouseById(Long id) throws Exception;
 
     void updateWarehouse(Long id, Warehouse warehouse) throws Exception;
+
 }

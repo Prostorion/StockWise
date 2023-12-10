@@ -40,6 +40,7 @@ body.addEventListener("click", (event) => {
             canselButton.parentNode.parentNode.parentNode.remove();
             isFormShows = false;
             content.appendChild(getFormButton);
+            div.innerHTML ="";
         }
 
         if (submitButton.contains(event.target)) {

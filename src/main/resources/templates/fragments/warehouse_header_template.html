@@ -17,22 +17,22 @@
                 <h1 th:text="${warehouse.name.toUpperCase()} + ' - ' + ${warehouse.address}"></h1>
             </a>
         </div>
-        <div class="mx-5">
+        <div class="mx-3">
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
                th:href="'/api/v1/warehouses/'+${warehouse.id}+'/items'">
-                <button class="btn  btn-warning">Items</button>
+                <button class="btn  btn-warning my-1">Items</button>
             </a>
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
                th:href="'/api/v1/warehouses/'+${warehouse.id}+'/users'">
-                <button class="btn btn-warning">Users</button>
+                <button class="btn btn-warning my-1">Users</button>
             </a>
-            <a class=" link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
+            <a class="link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
                th:href="'/api/v1/warehouses/'+${warehouse.id}+'/history'">
-                <button class="btn  btn-warning">History</button>
+                <button class="btn  btn-warning my-1">History</button>
             </a>
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
                th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks'">
-                <button class="btn  btn-warning">Tasks</button>
+                <button class="btn  btn-warning my-1">Tasks</button>
             </a>
 
         </div>

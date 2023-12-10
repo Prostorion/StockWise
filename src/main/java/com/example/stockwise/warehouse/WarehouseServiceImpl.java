@@ -60,6 +60,9 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouseRepository.save(oldWarehouse);
     }
 
+
+
+
     private void validateWarehouse(User user, Warehouse warehouse) throws Exception {
         nameValidation(user, warehouse.getName());
         addressValidation(warehouse.getAddress());

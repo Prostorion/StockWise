@@ -3,6 +3,7 @@ package com.example.stockwise.user;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface UserService extends UserDetailsService {
@@ -19,7 +20,11 @@ public interface UserService extends UserDetailsService {
 
     boolean isWarehouseAccessibleByUser(String username, Long requestedWarehouseId);
 
-    public Optional<User> getUser();
+    Optional<User> getUser();
 
     void updateUser(User user) throws Exception;
+
+    void addWorkerToWarehouse(User user, Long id) throws Exception;
+
+    Set<User> getWarehouseUsers(Long id) throws Exception;
 }

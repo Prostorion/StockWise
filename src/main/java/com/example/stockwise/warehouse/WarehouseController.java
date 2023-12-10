@@ -60,7 +60,7 @@ public class WarehouseController {
         model.addAttribute(user);
         Warehouse warehouse = warehouseService.getWarehouseById(id);
         model.addAttribute(warehouse);
-        return "warehouse_id";
+        return "warehouse/warehouse_id";
     }
 
     @GetMapping("/{id}/history")
@@ -69,7 +69,17 @@ public class WarehouseController {
         model.addAttribute(user);
         Warehouse warehouse = warehouseService.getWarehouseById(id);
         model.addAttribute(warehouse);
-        return "warehouse_history";
+        return "warehouse/history";
+    }
+
+    @GetMapping("/{id}/users")
+    public String warehouseUsers(@PathVariable Long id, Model model) throws Exception {
+        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
+        model.addAttribute(user);
+        Warehouse warehouse = warehouseService.getWarehouseById(id);
+        model.addAttribute(warehouse);
+        model.addAttribute(userService.getWarehouseUsers(id));
+        return "warehouse/users";
     }
 
     @PutMapping("/{id}")

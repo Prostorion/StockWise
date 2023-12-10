@@ -16,5 +16,4 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
     void deleteById(@NonNull Long id);
 
-
 }
