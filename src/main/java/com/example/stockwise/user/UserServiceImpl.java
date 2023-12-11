@@ -4,8 +4,6 @@ import com.example.stockwise.role.Role;
 import com.example.stockwise.role.RoleRepository;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseRepository;
-import com.example.stockwise.warehouse.WarehouseService;
-import org.springframework.expression.ExpressionException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -118,7 +116,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<User> getWarehouseUsers(Long id) throws Exception {
+    public Set<User> getWarehouseUsers(Long id) {
         Warehouse warehouse = warehouseRepository.findById(id).get();
         return userRepository.findAllByWarehousesContainingOrderByFirstname(warehouse);
     }

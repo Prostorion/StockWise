@@ -1,6 +1,7 @@
 package com.example.stockwise.item;
 
-import com.example.stockwise.warehouse.Warehouse;
+import com.example.stockwise.rack.Rack;
+import com.example.stockwise.task.Task;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,10 +21,13 @@ public class Item {
     private String name;
     private String measurement;
     private Long amount;
-    private Long rack;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse_id", nullable = false)
-    private Warehouse warehouse;
+    @JoinColumn(name = "rack_id")
+    private Rack rack;
+
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private Task task;
 
 }

@@ -1,6 +1,6 @@
 package com.example.stockwise.warehouse;
 
-import com.example.stockwise.item.Item;
+import com.example.stockwise.rack.Rack;
 import com.example.stockwise.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,9 +28,11 @@ public class Warehouse {
     @ManyToMany(mappedBy = "warehouses")
     Set<User> userSet;
 
+
+    @ToString.Exclude
     @OneToMany(mappedBy = "warehouse",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    Set<Item> items;
+    Set<Rack> racks;
 
 }
