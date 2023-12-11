@@ -1,7 +1,9 @@
 package com.example.stockwise.user;
 
 import com.example.stockwise.role.Role;
+import com.example.stockwise.task.Task;
 import com.example.stockwise.warehouse.Warehouse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,4 +43,18 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "warehouse_id")
     )
     private Set<Warehouse> warehouses = new HashSet<>();
+
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToMany(mappedBy = "assignee",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    Set<Task> assigned;
+
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToMany(mappedBy = "author",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    Set<Task> author;
 }

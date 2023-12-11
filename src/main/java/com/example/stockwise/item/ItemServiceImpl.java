@@ -16,7 +16,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Set<Item> getAllWarehouseItems(Long id) throws Exception {
         //TODO: sorting impl
-        return itemRepository.findAllByRackWarehouseId(id);
+        return itemRepository.findAllByRackWarehouseIdAndTask(id, null);
     }
 
     @Override

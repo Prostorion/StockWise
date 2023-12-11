@@ -22,6 +22,7 @@ public class Item {
     private String measurement;
     private Long amount;
 
+
     @ManyToOne
     @JoinColumn(name = "rack_id")
     private Rack rack;
@@ -29,5 +30,6 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
+
 
 }

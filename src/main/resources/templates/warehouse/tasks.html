@@ -17,23 +17,35 @@
 <div th:replace="~{fragments/header_template :: header}"></div>
 <div th:replace="~{fragments/warehouse_header_template:: warehouse_header}"></div>
 <div class="container my-2 px-3 py-3 text-center">
-    <h1 class="mx-auto my-3"> Items </h1>
+    <h1 class="mx-auto my-3"> Tasks </h1>
     <div class="col-md" id="content">
         <table class="table text-start table-bordered" id="table">
             <thead>
             <tr class="fw-bold">
                 <th>Type</th>
                 <th>Items</th>
+                <th>Assignee</th>
+                <th>Task author</th>
             </tr>
             </thead>
             <tbody id="tableBody">
             <tr th:each="task : ${taskList}">
                 <td th:text="${task.taskType.type}"></td>
-                <td th:text="${task.items}"></td>
+                <td>
+                    <p th:each="item : ${task.items}"
+                       th:text="${item.name} + ' - ' + ${item.amount} + ' ' + ${item.measurement} + ', Rack №' + ${item.rack.number}"></p>
+                </td>
+                <td th:text="${task.assignee.username}"></td>
+                <td th:text="${task.author.username}"></td>
             </tr>
             </tbody>
         </table>
         <div id="resultDiv"></div>
+        <div>
+            <a th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks/new'">
+                <button type="button" id="getForm" class="btn btn-outline-warning my-2">Add new task</button>
+            </a>
+        </div>
     </div>
 </div>
 

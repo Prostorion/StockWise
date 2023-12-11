@@ -1,6 +1,7 @@
 package com.example.stockwise.task;
 
 import com.example.stockwise.item.Item;
+import com.example.stockwise.user.User;
 import com.example.stockwise.warehouse.Warehouse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,4 +32,12 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "taskType_id", nullable = false)
     TaskType taskType;
+
+    @ManyToOne
+    @JoinColumn(name = "assignee")
+    User assignee;
+
+    @ManyToOne
+    @JoinColumn(name = "author")
+    User author;
 }
