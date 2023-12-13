@@ -6,6 +6,7 @@ const currentLocation = window.location.href;
 const url = currentLocation.substring(0, currentLocation.lastIndexOf('/'));
 
 
+
 body.addEventListener("click", (event) => {
 
 
@@ -22,6 +23,7 @@ body.addEventListener("click", (event) => {
         }
     }
 
+
     if (submitButton.contains(event.target)) {
         event.preventDefault();
        if (validateInputs()){
@@ -33,8 +35,9 @@ body.addEventListener("click", (event) => {
            else{
                type = "Order";
            }
-           const assignee = document.getElementById("userSelect");
+           const assignee = document.getElementById("userSelect").value.trim().split("(")[1].split(")")[0];
 
+           const deadline = new Date(document.getElementById("dateInput").value);
 
            const task= {
                items: items,
@@ -42,8 +45,10 @@ body.addEventListener("click", (event) => {
                    type: type
                },
                assignee: {
-                   name: assignee
+                   username: assignee
                },
+               completed: false,
+               deadline: deadline
            }
 
            fetch(url, {
@@ -129,6 +134,10 @@ function validateInputs() {
     var tableRows = document.querySelectorAll('#tableBody tr');
     var isValid = true;
     div.innerHTML = "";
+    const dateTimeInput = document.getElementById('dateInput');
+    if(!validateDateTime(dateTimeInput)){
+        isValid = false;
+    }
     tableRows.forEach(function(row) {
         const itemNameInput = row.querySelectorAll('.itemNameInput');
         if(!validateName(itemNameInput[0])){
@@ -146,6 +155,7 @@ function validateInputs() {
         if(!validateNumber(itemRackInput[0])){
             isValid = false;
         }
+
     });
 
     return isValid;
@@ -196,6 +206,40 @@ function validateNumber(element) {
     }
 }
 
+function validateDateTime(element) {
+    const datetimeRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/;
+    const match = element.value.match(datetimeRegex);
+
+    if (match) {
+        // Step 3: Check if the extracted date and time values are valid
+        const year = parseInt(match[1]);
+        const month = parseInt(match[2]);
+        const day = parseInt(match[3]);
+        const hour = parseInt(match[4]);
+        const minute = parseInt(match[5]);
+
+        const isValidDate = !isNaN(year) && !isNaN(month) && !isNaN(day);
+        const isValidTime = !isNaN(hour) && !isNaN(minute) && hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
+
+        if (isValidDate && isValidTime) {
+            element.classList.remove("border-danger");
+            return true;
+        } else {
+            const label = document.createElement("p");
+            label.textContent = "Invalid Date or Time format";
+            div.appendChild(label);
+            element.classList.add("border-danger")
+            return false;
+        }
+    } else {
+        const label = document.createElement("p");
+        label.textContent = "Invalid Date or Time format";
+        div.appendChild(label);
+        element.classList.add("border-danger")
+        return false;
+    }
+}
+
 
 function convertTableToObjects() {
     const tableBody = document.getElementById('tableBody');
@@ -207,14 +251,14 @@ function convertTableToObjects() {
         const inputs = row.getElementsByTagName('input');
 
         const item = {
-            Name: inputs[0].value,
-            Amount: parseFloat(inputs[1].value),
-            Measurement: inputs[2].value,
-            Rack: parseFloat(inputs[3].value)
+            name: inputs[0].value,
+            amount: parseFloat(inputs[1].value),
+            measurement: inputs[2].value,
+            rack: parseFloat(inputs[3].value)
         };
 
         items.push(item);
     }
-
+    console.log(items)
     return items;
 }

@@ -26,13 +26,13 @@ public class Warehouse {
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "warehouses")
-    Set<User> userSet;
+    private Set<User> userSet;
 
 
     @ToString.Exclude
     @OneToMany(mappedBy = "warehouse",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    Set<Rack> racks;
+    private Set<Rack> racks;
 
 }

@@ -38,7 +38,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void deleteWarehouseById(Long id) throws Exception {
         Warehouse warehouse = warehouseRepository.findById(id).orElseThrow(() -> new Exception("warehouse not found"));
-        warehouse.userSet.forEach(user -> user.getWarehouses().remove(warehouse));
+        warehouse.getUserSet().forEach(user -> user.getWarehouses().remove(warehouse));
         warehouseRepository.deleteById(id);
     }
 

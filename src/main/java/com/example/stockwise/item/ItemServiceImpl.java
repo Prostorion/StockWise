@@ -1,5 +1,6 @@
 package com.example.stockwise.item;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -15,14 +16,27 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Set<Item> getAllWarehouseItems(Long id) throws Exception {
-        //TODO: sorting impl
-        return itemRepository.findAllByRackWarehouseIdAndTask(id, null);
+        return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.ASC, "name"));
     }
 
     @Override
     public Set<Item> getAllWarehouseItemsAndSort(Long id, String sort) throws Exception {
+        if (sort == null || !(sort.contains("-asc") || sort.contains("-desc"))){
+           return getAllWarehouseItems(id);
+        }
+        String columnName = sort.split("-")[0];
+        if (sort.contains("asc")){
+            return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.ASC, columnName));
+        }
+        else{
+            return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.DESC, columnName));
+        }
 
 
-        return getAllWarehouseItems(id);
+    }
+
+    @Override
+    public void deleteItem(Item item) {
+        itemRepository.delete(item);
     }
 }

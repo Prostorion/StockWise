@@ -3,12 +3,10 @@ package com.example.stockwise.config.filters;
 
 import com.example.stockwise.services.MainService;
 import com.example.stockwise.user.UserService;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -22,17 +20,16 @@ public class WarehouseFilter extends GenericFilterBean {
 
     private final UserService userService;
     private final MainService mainService;
-
-
     public WarehouseFilter(UserService userService, MainService mainService) {
         this.userService = userService;
         this.mainService = mainService;
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse resp, FilterChain filterChain)
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) resp;
+        HttpServletRequest request = (HttpServletRequest) req;
         // Extract the requested URL
         String requestURI = getRequestURI(request);
 
@@ -46,11 +43,16 @@ public class WarehouseFilter extends GenericFilterBean {
             Long requestedWarehouseId = Long.parseLong(parts[4]);
 
             // Check if the requested warehouse is related to the current user
+            //FIXME: change to warehouseService
             if (!userService.isWarehouseAccessibleByUser(currentUser.getUsername(), requestedWarehouseId)) {
-
-                response.getWriter().write("Access to the warehouse is forbidden.");
-                response.setStatus(403);
+                if (request.getMethod().equals("GET")) {
+                    response.sendRedirect("/error/403");
+                } else {
+                    response.getWriter().write("Access to request is forbidden");
+                    response.setStatus(403);
+                }
                 return;
+
             }
         }
 

@@ -16,6 +16,10 @@ import java.util.Set;
 @Builder
 public class Rack {
 
+    public Rack(Long number) {
+        this.number = number;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -27,7 +31,7 @@ public class Rack {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @ToString.Exclude
-    Set<Item> items;
+    private Set<Item> items;
 
     @ManyToOne
     @ToString.Exclude

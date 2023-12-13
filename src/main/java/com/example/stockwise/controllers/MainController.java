@@ -43,10 +43,6 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/user")
-    public String userInfo(Model model) {
-        model.addAttribute(userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user")));
-        return "user_info";
-    }
+
 
 }

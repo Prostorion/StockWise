@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,7 +31,7 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -57,6 +58,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/v1/users/new", "/api/v1", "/api/v1/users", "/register.js", "/error").permitAll();
                     auth.requestMatchers("/api/v1/user", "/api/v1/warehouses/**", "/api/v1/warehouses/{id}").hasAnyAuthority("ADMIN", "WORKER", "MANAGER");
+                    auth.requestMatchers("/error/403").hasAuthority("NOONE");
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
                 .formLogin((form -> form

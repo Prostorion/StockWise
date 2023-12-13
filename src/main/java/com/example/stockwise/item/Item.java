@@ -22,13 +22,12 @@ public class Item {
     private String measurement;
     private Long amount;
 
-
     @ManyToOne
     @JoinColumn(name = "rack_id")
     private Rack rack;
 
     @ManyToOne
-    @JoinColumn(name = "task_id")
+    @JoinColumn(name = "task_id", nullable = true)
     private Task task;
 
 

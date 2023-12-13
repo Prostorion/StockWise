@@ -14,8 +14,6 @@
     <h1 class="mx-auto my-3"> Opps...</h1>
     <h1 th:text="${status}"></h1>
     <p th:text="${error}"></p>
-    <p>There seems to be a problem with the page you requested
-        (<span th:text="${path}"></span>).</p>
     <p th:text="${'Further details: ' + message + '.'}"></p>
     <a href="#" onclick="history.go(-1); return false;" class="text-decoration-none">
         <button type="button" class="btn btn-outline-warning btn-lg mb-3 py-3">Return to previous page</button>

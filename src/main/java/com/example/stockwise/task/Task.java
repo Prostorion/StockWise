@@ -6,6 +6,7 @@ import com.example.stockwise.warehouse.Warehouse;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -19,25 +20,34 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Long id;
+    private Long id;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    Set<Item> items;
+    private Set<Item> items;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)
-    Warehouse warehouse;
+    private Warehouse warehouse;
 
     @ManyToOne
     @JoinColumn(name = "taskType_id", nullable = false)
-    TaskType taskType;
+    private TaskType taskType;
 
     @ManyToOne
     @JoinColumn(name = "assignee")
-    User assignee;
+    private User assignee;
 
     @ManyToOne
     @JoinColumn(name = "author")
-    User author;
+    private User author;
+
+    @Column(nullable = false)
+    private LocalDateTime deadline;
+
+    @Column(nullable = false)
+    private LocalDateTime creationDate;
+
+    @Column(nullable = false)
+    private boolean completed;
 }
