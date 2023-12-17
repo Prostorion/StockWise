@@ -3,7 +3,6 @@ package com.example.stockwise.user;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
 
-    public UserService userService;
+    private final UserService userService;
 
-    //FIXME: watch WarehouseFilter.java
-    public PasswordEncoder passwordEncoder;
-
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/api/v1/users/new")
@@ -30,7 +25,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> registerManager(@RequestBody User user) {
         try {
-            userService.addManager(user, passwordEncoder);
+            userService.addManager(user);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -39,7 +34,6 @@ public class UserController {
 
     @GetMapping("/api/v1/warehouses/{id}/users/new")
     public String registerWorker(@PathVariable Long id, Model model) throws Exception {
-        model.addAttribute(userService.getUser().orElseThrow(() -> new Exception("user not found")));
         return "warehouse/register_worker";
     }
 
@@ -57,7 +51,7 @@ public class UserController {
 
     @PutMapping("api/v1/user")
     @ResponseBody
-    public ResponseEntity<?> editCurrentUser(@RequestBody User user){
+    public ResponseEntity<?> editCurrentUser(@RequestBody User user) {
         try {
             userService.updateCurrentUser(user);
         } catch (Exception e) {
@@ -70,7 +64,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> registerWorker(@PathVariable Long id, @RequestBody User user) {
         try {
-            userService.addWorkerToWarehouse(user, id, passwordEncoder);
+            userService.addWorkerToWarehouse(user, id);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -79,7 +73,7 @@ public class UserController {
 
     @DeleteMapping("/api/v1/warehouses/{id}/users/{user_id}")
     @ResponseBody
-    public ResponseEntity<?> deleteUser(@PathVariable Long id, @PathVariable Long user_id){
+    public ResponseEntity<?> deleteUser(@PathVariable Long id, @PathVariable Long user_id) {
         try {
             userService.deleteWorker(user_id, id);
         } catch (Exception e) {

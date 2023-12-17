@@ -1,10 +1,8 @@
 package com.example.stockwise.item;
 
-import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +30,10 @@ public class ItemController {
                                              Model model,
                                              @RequestParam(name = "sort", required = false) String sort)
             throws Exception {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
-        model.addAttribute(user);
         Warehouse warehouse = warehouseService.getWarehouseById(id);
         model.addAttribute(warehouse);
         model.addAttribute(itemservice.getAllWarehouseItemsAndSort(id, sort));
         model.addAttribute("sort", sort);
-        model.addAttribute(userService.getUser());
         return "warehouse/items";
     }
 

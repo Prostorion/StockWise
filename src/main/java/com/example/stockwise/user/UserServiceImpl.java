@@ -6,61 +6,53 @@ import com.example.stockwise.task.Task;
 import com.example.stockwise.task.TaskRepository;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseRepository;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleNotFoundException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
 
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, WarehouseRepository warehouseRepository, TaskRepository taskRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, WarehouseRepository warehouseRepository, TaskRepository taskRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.warehouseRepository = warehouseRepository;
         this.taskRepository = taskRepository;
-    }
-
-
-
-
-    @Override
-    public void addAdmin(User user, PasswordEncoder passwordEncoder) throws Exception {
-        saveOneRoleUser(user, "ADMIN", passwordEncoder);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public void addManager(User user, PasswordEncoder passwordEncoder) throws Exception {
-        saveOneRoleUser(user, "MANAGER", passwordEncoder);
+    public void addAdmin(User user) throws Exception {
+        saveOneRoleUser(user, "ADMIN");
     }
 
     @Override
-    public void addWorker(User user, PasswordEncoder passwordEncoder) throws Exception {
-        saveOneRoleUser(user, "WORKER", passwordEncoder);
+    public void addManager(User user) throws Exception {
+        saveOneRoleUser(user, "MANAGER");
+    }
+
+    @Override
+    public void addWorker(User user) throws Exception {
+        saveOneRoleUser(user, "WORKER");
     }
 
     @Override
@@ -94,8 +86,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addWorkerToWarehouse(User user, Long id, PasswordEncoder passwordEncoder) throws Exception {
-        addWorker(user, passwordEncoder);
+    public void addWorkerToWarehouse(User user, Long id) throws Exception {
+        addWorker(user);
         User worker = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new Exception("user not found"));
         Set<Warehouse> warehouseSet = new HashSet<>();
         warehouseSet.add(warehouseRepository.findById(id).get());
@@ -131,14 +123,14 @@ public class UserServiceImpl implements UserService {
 
     private void reassignToDefaultUser(Set<Task> tasks) {
         User defaultUser = userRepository.findById(5L).get();
-        tasks.forEach(t-> t.setAssignee(defaultUser));
+        tasks.forEach(t -> t.setAssignee(defaultUser));
         taskRepository.saveAll(tasks);
     }
 
     @Override
     public void updateCurrentUser(User user) throws Exception {
         User oldUser = getUser().orElseThrow(() -> new Exception("User not found"));
-        if (!user.getUsername().equals(oldUser.getUsername())){
+        if (!user.getUsername().equals(oldUser.getUsername())) {
             usernameValidation(user.getUsername());
         }
         nameValidation(user.getFirstname());
@@ -150,7 +142,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private void saveOneRoleUser(User user, String role, PasswordEncoder passwordEncoder) throws Exception {
+    private void saveOneRoleUser(User user, String role) throws Exception {
         validateUser(user);
         Set<Role> rolesSet = new HashSet<>();
         rolesSet.add(roleRepository.findByName(role).get());

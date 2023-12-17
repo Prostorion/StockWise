@@ -3,7 +3,6 @@ package com.example.stockwise.controllers;
 import com.example.stockwise.services.MainService;
 import com.example.stockwise.user.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +41,6 @@ public class MainController {
     String login() {
         return "login";
     }
-
 
 
 }

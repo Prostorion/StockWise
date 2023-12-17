@@ -22,10 +22,31 @@
         </div>
         <div class="d-flex align-items-center">
             <a href="/api/v1/user" class="text-decoration-none">
-                <span th:if="${user != null}" th:text="${user.username.toUpperCase()}" class="text-warning"></span>
+                <span id="username" class="text-warning"></span>
             </a>
         </div>
     </header>
+    <script>
+        const usernameSpan = document.getElementById("username");
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch("/api/rest/users/current", {
+                method: "GET", // You can change this to "GET" or other HTTP methods
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        return new Error("not found");
+                    }
+                })
+                .then((data) => {
+                    usernameSpan.textContent = data.username.toUpperCase() ;
+                })
+                .catch(e => {
+                    usernameSpan.textContent = " ";
+                })
+        });
+    </script>
 </div>
 
 </body>

@@ -37,6 +37,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name = "users_warehouses",
             joinColumns = @JoinColumn(name = "user_id"),

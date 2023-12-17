@@ -2,11 +2,14 @@ package com.example.stockwise.config.filters;
 
 
 import com.example.stockwise.services.MainService;
-import com.example.stockwise.user.UserService;
-import jakarta.servlet.*;
+import com.example.stockwise.warehouse.Warehouse;
+import com.example.stockwise.warehouse.WarehouseRepository;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -14,15 +17,18 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 
 @Component
 public class WarehouseFilter extends GenericFilterBean {
 
-    private final UserService userService;
     private final MainService mainService;
-    public WarehouseFilter(UserService userService, MainService mainService) {
-        this.userService = userService;
+
+    private final WarehouseRepository warehouseRepository;
+
+    public WarehouseFilter(MainService mainService, WarehouseRepository warehouseRepository) {
         this.mainService = mainService;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
@@ -41,10 +47,11 @@ public class WarehouseFilter extends GenericFilterBean {
             // Extract the warehouse ID from the URL
             String[] parts = requestURI.split("/");
             Long requestedWarehouseId = Long.parseLong(parts[4]);
+            Optional<Warehouse> warehouse = warehouseRepository.findById(requestedWarehouseId);
 
-            // Check if the requested warehouse is related to the current user
-            //FIXME: change to warehouseService
-            if (!userService.isWarehouseAccessibleByUser(currentUser.getUsername(), requestedWarehouseId)) {
+            if (warehouse.isEmpty() ||
+                    warehouseRepository.findAllByUserUsername(currentUser.getUsername()).contains(warehouse.get())
+            ) {
                 if (request.getMethod().equals("GET")) {
                     response.sendRedirect("/error/403");
                 } else {
@@ -52,12 +59,12 @@ public class WarehouseFilter extends GenericFilterBean {
                     response.setStatus(403);
                 }
                 return;
-
             }
         }
 
         filterChain.doFilter(request, response);
     }
+
 
     private String getRequestURI(ServletRequest request) {
         return ((HttpServletRequest) request).getRequestURI();

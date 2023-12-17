@@ -21,14 +21,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Set<Item> getAllWarehouseItemsAndSort(Long id, String sort) throws Exception {
-        if (sort == null || !(sort.contains("-asc") || sort.contains("-desc"))){
-           return getAllWarehouseItems(id);
+        if (sort == null || !(sort.contains("-asc") || sort.contains("-desc"))) {
+            return getAllWarehouseItems(id);
         }
         String columnName = sort.split("-")[0];
-        if (sort.contains("asc")){
+        if (sort.contains("asc")) {
             return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.ASC, columnName));
-        }
-        else{
+        } else {
             return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.DESC, columnName));
         }
 

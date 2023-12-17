@@ -2,6 +2,7 @@ package com.example.stockwise.warehouse;
 
 import com.example.stockwise.rack.Rack;
 import com.example.stockwise.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,11 +26,13 @@ public class Warehouse {
     private String address;
 
     @ToString.Exclude
+    @JsonIgnore
     @ManyToMany(mappedBy = "warehouses")
     private Set<User> userSet;
 
 
     @ToString.Exclude
+    @JsonIgnore
     @OneToMany(mappedBy = "warehouse",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

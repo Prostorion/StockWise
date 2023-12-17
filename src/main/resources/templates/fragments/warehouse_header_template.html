@@ -13,25 +13,25 @@
     <div class="container my-2 px-3 py-3 text-center">
         <div class="mb-3">
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
-               th:href="'/api/v1/warehouses/'+${warehouse.id}">
-                <h1 th:text="${warehouse.name.toUpperCase()} + ' - ' + ${warehouse.address}"></h1>
+               id="link-main">
+                <h1 id="warehouseName">[]</h1>
             </a>
         </div>
         <div class="mx-3">
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
-               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/items'">
+               id="link-items">
                 <button class="btn  btn-warning my-1">Items</button>
             </a>
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
-               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/users'">
+               id="link-users">
                 <button class="btn btn-warning my-1">Users</button>
             </a>
             <a class="link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
-               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/history'">
+               id="link-history">
                 <button class="btn  btn-warning my-1">History</button>
             </a>
             <a class="link-secondary link-underline-secondary link-opacity-75-hover link-offset-2 link-underline-opacity-0"
-               th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks'">
+               id="link-tasks">
                 <button class="btn  btn-warning my-1">Tasks</button>
             </a>
 

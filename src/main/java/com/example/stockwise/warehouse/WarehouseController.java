@@ -26,7 +26,6 @@ public class WarehouseController {
     @GetMapping()
     public String warehouses(Model model) {
         User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
-        model.addAttribute(user);
         Set<Warehouse> warehouses = warehouseService.getUserWarehouses(user);
         model.addAttribute(warehouses);
         return "warehouses";
@@ -56,26 +55,16 @@ public class WarehouseController {
 
     @GetMapping("/{id}")
     public String warehouse(@PathVariable Long id, Model model) throws Exception {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
-        model.addAttribute(user);
-        Warehouse warehouse = warehouseService.getWarehouseById(id);
-        model.addAttribute(warehouse);
         return "warehouse/warehouse_id";
     }
 
     @GetMapping("/{id}/history")
     public String warehousesSettings(@PathVariable Long id, Model model) throws Exception {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
-        model.addAttribute(user);
-        Warehouse warehouse = warehouseService.getWarehouseById(id);
-        model.addAttribute(warehouse);
         return "warehouse/history";
     }
 
     @GetMapping("/{id}/users")
     public String warehouseUsers(@PathVariable Long id, Model model) throws Exception {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
-        model.addAttribute(user);
         Warehouse warehouse = warehouseService.getWarehouseById(id);
         model.addAttribute(warehouse);
         model.addAttribute(userService.getWarehouseUsers(id));

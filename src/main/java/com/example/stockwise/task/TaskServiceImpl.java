@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Long taskId, Long warehouseId) throws Exception {
         Task task = getTaskById(taskId, warehouseId);
-        if (task.isCompleted()){
+        if (task.isCompleted()) {
             throw new Exception("Task is already completed");
         }
         Set<Item> items = task.getItems();
@@ -65,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
 
     private Task getTaskById(Long taskId, Long warehouseId) throws Exception {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new Exception("Task is not found"));
-        if (!task.getWarehouse().getId().equals(warehouseId)){
+        if (!task.getWarehouse().getId().equals(warehouseId)) {
             throw new Exception("Task is not found in this warehouse");
         }
         return task;
@@ -74,7 +74,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void completeTask(Long taskId, Long id) throws Exception {
         Task task = getTaskById(taskId, id);
-        if (task.isCompleted()){
+        if (task.isCompleted()) {
             throw new Exception("task is already completed");
         }
 

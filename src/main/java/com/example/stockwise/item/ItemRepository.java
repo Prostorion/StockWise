@@ -1,13 +1,11 @@
 package com.example.stockwise.item;
 
-import com.example.stockwise.task.Task;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.net.Socket;
 import java.util.Set;
 
 @Repository
