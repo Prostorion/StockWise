@@ -1,6 +1,7 @@
 const body = document.getElementById("body");
 const div = document.getElementById("resultDiv");
-const url =  window.location.href;
+const currentLocation = window.location.href;
+const url =  currentLocation.substring(0, currentLocation.lastIndexOf('/'))+"/orders";
 const deleteButtons = document.getElementsByClassName("delete-button");
 const completeButtons = document.getElementsByClassName("complete-button");
 

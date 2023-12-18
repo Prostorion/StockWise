@@ -32,20 +32,20 @@
             </tr>
             </thead>
             <tbody id="tableBody">
-            <tr th:each="task : ${taskList}">
-                <td th:text="${task.taskType.type}"></td>
-                <td th:text="${task.deadline.format(dateTimeFormatter)}"></td>
+            <tr th:each="order : ${orderList}">
+                <td th:text="order"></td>
+                <td th:text="${order.deadline.format(dateTimeFormatter)}"></td>
                 <td>
-                    <p th:each="item : ${task.items}"
+                    <p th:each="item : ${order.items}"
                        th:text="${item.name} + ' - ' + ${item.amount} + ' ' + ${item.measurement} + ', Rack №' + ${item.rackNumber}"></p>
                 </td>
-                <td th:text="${task.assignee.username}"></td>
-                <td th:text="${task.author.username + ' ' + task.creationDate.format(dateTimeFormatter)}"></td>
+                <td th:text="${order.assignee.username}"></td>
+                <td th:text="${order.author.username + ' ' + order.creationDate.format(dateTimeFormatter)}"></td>
                 <td class="text-center">
-                    <button type="button" th:id="'completeTask ' + ${task.id}" class="btn btn-sm btn-outline-warning my-2 complete-button">Complete</button>
+                    <button type="button" th:id="'completeTask ' + ${order.id}" class="btn btn-sm btn-outline-warning my-2 complete-button">Complete</button>
                 </td>
                 <td class="text-center">
-                    <a th:id="'deleteTask ' + ${task.id}" class="text-danger cursor-pointer delete-button">
+                    <a th:id="'deleteTask ' + ${order.id}" class="text-danger cursor-pointer delete-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>

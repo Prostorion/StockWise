@@ -8,4 +8,6 @@ public interface ItemService {
     Set<Item> getAllWarehouseItemsAndSort(Long id, String sort) throws Exception;
 
     void deleteItem(Item item);
+
+    void saveItems(Set<Item> items);
 }

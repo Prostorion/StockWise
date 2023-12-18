@@ -1,6 +1,6 @@
 package com.example.stockwise.items.itemPending;
 
-import com.example.stockwise.task.Task;
+import com.example.stockwise.task.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +24,5 @@ public class PendingItem {
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = true)
-    private Task task;
+    private Order task;
 }

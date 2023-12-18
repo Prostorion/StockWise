@@ -16,7 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Task {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -29,10 +30,6 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)
     private Warehouse warehouse;
-
-    @ManyToOne
-    @JoinColumn(name = "taskType_id", nullable = false)
-    private TaskType taskType;
 
     @ManyToOne
     @JoinColumn(name = "assignee")
@@ -48,6 +45,4 @@ public class Task {
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    @Column(nullable = false)
-    private boolean completed;
 }

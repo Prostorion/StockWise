@@ -38,4 +38,9 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItem(Item item) {
         itemRepository.delete(item);
     }
+
+    @Override
+    public void saveItems(Set<Item> items) {
+        itemRepository.saveAll(items);
+    }
 }

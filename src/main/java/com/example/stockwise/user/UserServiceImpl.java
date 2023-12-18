@@ -2,8 +2,8 @@ package com.example.stockwise.user;
 
 import com.example.stockwise.role.Role;
 import com.example.stockwise.role.RoleRepository;
-import com.example.stockwise.task.Task;
-import com.example.stockwise.task.TaskRepository;
+import com.example.stockwise.task.Order;
+import com.example.stockwise.task.OrderRepository;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseRepository;
 import org.springframework.security.core.Authentication;
@@ -28,15 +28,15 @@ public class UserServiceImpl implements UserService {
 
     private final WarehouseRepository warehouseRepository;
 
-    private final TaskRepository taskRepository;
+    private final OrderRepository orderRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, WarehouseRepository warehouseRepository, TaskRepository taskRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, WarehouseRepository warehouseRepository, OrderRepository orderRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.warehouseRepository = warehouseRepository;
-        this.taskRepository = taskRepository;
+        this.orderRepository = orderRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -114,17 +114,17 @@ public class UserServiceImpl implements UserService {
         if (user.getRoles().stream().map(Role::getName).noneMatch(n -> n.equals("WORKER"))) {
             throw new Exception("Can't delete not WORKER");
         }
-        Set<Task> tasks = taskRepository.findAllByAssignee(user);
+        Set<Order> orders = orderRepository.findAllByAssignee(user);
 
-        reassignToDefaultUser(tasks);
+        reassignToDefaultUser(orders);
 
         userRepository.delete(user);
     }
 
-    private void reassignToDefaultUser(Set<Task> tasks) {
+    private void reassignToDefaultUser(Set<Order> orders) {
         User defaultUser = userRepository.findById(5L).get();
-        tasks.forEach(t -> t.setAssignee(defaultUser));
-        taskRepository.saveAll(tasks);
+        orders.forEach(t -> t.setAssignee(defaultUser));
+        orderRepository.saveAll(orders);
     }
 
     @Override

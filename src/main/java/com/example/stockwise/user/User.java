@@ -1,7 +1,7 @@
 package com.example.stockwise.user;
 
 import com.example.stockwise.role.Role;
-import com.example.stockwise.task.Task;
+import com.example.stockwise.task.Order;
 import com.example.stockwise.warehouse.Warehouse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -50,12 +50,12 @@ public class User {
     @OneToMany(mappedBy = "assignee",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    Set<Task> assigned;
+    Set<Order> assigned;
 
     @ToString.Exclude
     @JsonIgnore
     @OneToMany(mappedBy = "author",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    Set<Task> author;
+    Set<Order> author;
 }

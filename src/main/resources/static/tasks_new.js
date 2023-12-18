@@ -3,7 +3,7 @@ const div = document.getElementById("resultDiv");
 const addItemButton = document.getElementById("addItem");
 const submitButton = document.getElementById("submitForm");
 const currentLocation = window.location.href;
-const url = currentLocation.substring(0, currentLocation.lastIndexOf('/'));
+const url = currentLocation.substring(0, (currentLocation.lastIndexOf('/')-5))+"orders";
 
 
 
@@ -66,7 +66,7 @@ body.addEventListener("click", (event) => {
                    }
                })
                .then(() => {
-                   location.replace(url);
+                   location.replace(currentLocation.substring(0, (currentLocation.lastIndexOf('/'))));
                })
                .catch(error => {
                    div.innerHTML = error.message;
