@@ -2,7 +2,6 @@ package com.example.stockwise.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,14 +37,14 @@ public class UserController {
     }
 
     @GetMapping("api/v1/user")
-    public String userInfo(Model model) {
-        model.addAttribute(userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user")));
+    public String userInfo(Model model) throws Exception {
+        model.addAttribute(userService.getUser());
         return "user_info";
     }
 
     @GetMapping("api/v1/user/edit")
-    public String userInfoEdit(Model model) {
-        model.addAttribute(userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user")));
+    public String userInfoEdit(Model model) throws Exception {
+        model.addAttribute(userService.getUser());
         return "user_info_edit";
     }
 

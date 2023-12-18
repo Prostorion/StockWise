@@ -1,4 +1,4 @@
-package com.example.stockwise.item;
+package com.example.stockwise.items.item;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +11,7 @@ import java.util.Set;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query("SELECT i FROM Item i LEFT JOIN i.rack r WHERE r.warehouse.id = :warehouse_id AND i.task.completed = :task_completed")
-    Set<Item> findAllByRackWarehouseIdAndTaskCompleted(@Param("warehouse_id") Long warehouse_id, @Param("task_completed") boolean task_completed, Sort sort);
+    @Query("SELECT i FROM Item i LEFT JOIN i.rack r WHERE r.warehouse.id = :warehouse_id")
+    Set<Item> findAllByRackWarehouseIdAndTaskCompleted(@Param("warehouse_id") Long warehouse_id, Sort sort);
 
 }

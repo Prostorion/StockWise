@@ -1,4 +1,4 @@
-package com.example.stockwise.item;
+package com.example.stockwise.items.item;
 
 import com.example.stockwise.user.UserService;
 import com.example.stockwise.warehouse.Warehouse;

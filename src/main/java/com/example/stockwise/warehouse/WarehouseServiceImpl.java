@@ -2,7 +2,6 @@ package com.example.stockwise.warehouse;
 
 import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -22,7 +21,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void addWarehouse(Warehouse warehouse) throws Exception {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user SERIOUS EXCEPTION"));
+        User user = userService.getUser();
         validateWarehouse(user, warehouse);
         warehouseRepository.save(warehouse);
         warehouse = warehouseRepository.findByName(warehouse.getName()).orElseThrow(() -> new Exception("warehouse is not found SERIOUS EXCEPTION"));
@@ -49,7 +48,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void updateWarehouse(Long id, Warehouse newWarehouse) throws Exception {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user SERIOUS EXCEPTION"));
+        User user = userService.getUser();
         Warehouse oldWarehouse = getWarehouseById(id);
         if (!oldWarehouse.getName().equals(newWarehouse.getName())) {
             nameValidation(user, newWarehouse.getName());

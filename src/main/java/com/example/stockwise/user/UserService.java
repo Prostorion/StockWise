@@ -16,7 +16,7 @@ public interface UserService {
 
     boolean isWarehouseAccessibleByUser(String username, Long requestedWarehouseId);
 
-    Optional<User> getUser();
+    User getUser() throws Exception;
 
     void updateUser(User user) throws Exception;
 
@@ -29,4 +29,5 @@ public interface UserService {
     void deleteWorker(Long userId, Long id) throws Exception;
 
     void updateCurrentUser(User user) throws Exception;
+
 }

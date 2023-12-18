@@ -7,4 +7,8 @@ import java.util.Optional;
 public interface RackRepository extends JpaRepository<Rack, Long> {
 
     Optional<Rack> findRackByNumber(Long number);
+
+    Optional<Rack> findRackByNumberAndWarehouseId(Long number, Long warehouse_id);
+
+    Optional<Rack> findRackById(Long id);
 }

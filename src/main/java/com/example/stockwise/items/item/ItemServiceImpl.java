@@ -1,4 +1,4 @@
-package com.example.stockwise.item;
+package com.example.stockwise.items.item;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Set<Item> getAllWarehouseItems(Long id) throws Exception {
-        return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.ASC, "name"));
+    public Set<Item> getAllWarehouseItems(Long id) {
+        return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, Sort.by(Sort.Direction.ASC, "name"));
     }
 
     @Override
@@ -26,9 +26,9 @@ public class ItemServiceImpl implements ItemService {
         }
         String columnName = sort.split("-")[0];
         if (sort.contains("asc")) {
-            return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.ASC, columnName));
+            return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, Sort.by(Sort.Direction.ASC, columnName));
         } else {
-            return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, true, Sort.by(Sort.Direction.DESC, columnName));
+            return itemRepository.findAllByRackWarehouseIdAndTaskCompleted(id, Sort.by(Sort.Direction.DESC, columnName));
         }
 
 

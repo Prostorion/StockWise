@@ -8,7 +8,7 @@ public interface TaskService {
 
     void addTask(Task task, Long id) throws Exception;
 
-    void deleteTask(Long taskId, Long warehouseId) throws Exception;
+    //void deleteTask(Long taskId, Long warehouseId) throws Exception;
 
     void completeTask(Long taskId, Long id) throws Exception;
 }

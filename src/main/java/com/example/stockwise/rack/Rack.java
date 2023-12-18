@@ -1,6 +1,6 @@
 package com.example.stockwise.rack;
 
-import com.example.stockwise.item.Item;
+import com.example.stockwise.items.item.Item;
 import com.example.stockwise.warehouse.Warehouse;
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.example.stockwise.item;
+package com.example.stockwise.items.item;
 
 import java.util.Set;
 

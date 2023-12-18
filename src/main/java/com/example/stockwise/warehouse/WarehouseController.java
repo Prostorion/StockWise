@@ -4,7 +4,6 @@ import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +23,8 @@ public class WarehouseController {
     }
 
     @GetMapping()
-    public String warehouses(Model model) {
-        User user = userService.getUser().orElseThrow(() -> new UsernameNotFoundException("there is no user"));
+    public String warehouses(Model model) throws Exception {
+        User user = userService.getUser();
         Set<Warehouse> warehouses = warehouseService.getUserWarehouses(user);
         model.addAttribute(warehouses);
         return "warehouses";

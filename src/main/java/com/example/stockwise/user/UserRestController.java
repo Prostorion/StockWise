@@ -17,8 +17,14 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping("/current")
-    public ResponseEntity<?> currentUser() {
-        //fixme: get()
-        return new ResponseEntity<>(userService.getUser().get(), HttpStatusCode.valueOf(200));
+    public ResponseEntity<?> currentUser() throws Exception {
+        try {
+            User user = userService.getUser();
+            user.setPassword("");
+            return new ResponseEntity<>(user, HttpStatusCode.valueOf(200));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
+        }
+
     }
 }

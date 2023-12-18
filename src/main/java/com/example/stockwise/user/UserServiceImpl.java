@@ -71,13 +71,13 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    public Optional<User> getUser() {
+    public User getUser() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal())) {
             String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            return findUserByUsername(username);
+            return userRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
         }
-        return Optional.empty();
+        throw new Exception("User not found");
     }
 
     @Override
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateCurrentUser(User user) throws Exception {
-        User oldUser = getUser().orElseThrow(() -> new Exception("User not found"));
+        User oldUser = getUser();
         if (!user.getUsername().equals(oldUser.getUsername())) {
             usernameValidation(user.getUsername());
         }

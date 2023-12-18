@@ -1,7 +1,7 @@
 package com.example.stockwise.task;
 
-import com.example.stockwise.item.Item;
-import com.example.stockwise.item.ItemService;
+import com.example.stockwise.items.item.ItemService;
+import com.example.stockwise.items.itemPending.PendingItem;
 import com.example.stockwise.rack.Rack;
 import com.example.stockwise.rack.RackRepository;
 import com.example.stockwise.user.User;
@@ -44,24 +44,25 @@ public class TaskServiceImpl implements TaskService {
         setTaskType(task);
         setAssignee(task, id);
         setAuthor(task);
-        setItems(task);
+        setItems(task, id);
         setCreationDateAndDeadline(task);
         task.setCompleted(false);
         taskRepository.save(task);
     }
 
-    @Override
-    public void deleteTask(Long taskId, Long warehouseId) throws Exception {
-        Task task = getTaskById(taskId, warehouseId);
-        if (task.isCompleted()) {
-            throw new Exception("Task is already completed");
-        }
-        Set<Item> items = task.getItems();
-        for (Item item : items) {
-            itemService.deleteItem(item);
-        }
-        taskRepository.delete(task);
-    }
+    //TODO: rewrite to Pending items
+//    @Override
+//    public void deleteTask(Long taskId, Long warehouseId) throws Exception {
+//        Task task = getTaskById(taskId, warehouseId);
+//        if (task.isCompleted()) {
+//            throw new Exception("Task is already completed");
+//        }
+//        Set<Item> items = task.getItems();
+//        for (Item item : items) {
+//            itemService.deleteItem(item);
+//        }
+//        taskRepository.delete(task);
+//    }
 
     private Task getTaskById(Long taskId, Long warehouseId) throws Exception {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new Exception("Task is not found"));
@@ -97,24 +98,25 @@ public class TaskServiceImpl implements TaskService {
         task.setTaskType(taskType);
     }
 
-    private void setWarehouse(Task task, Long id) throws Exception {
-        Warehouse warehouse = warehouseService.getWarehouseById(id);
+    private void setWarehouse(Task task, Long warehouse_id) throws Exception {
+        Warehouse warehouse = warehouseService.getWarehouseById(warehouse_id);
         task.setWarehouse(warehouse);
     }
 
-    private void setItems(Task task) throws Exception {
-        Set<Item> items = task.getItems();
-        for (Item item : items) {
-            Rack rack = rackRepository.findRackByNumber(
-                    item.getRack()
-                            .getNumber()).orElseThrow(() -> new Exception("Rack is not found"));
-            item.setRack(rack);
+    private void setItems(Task task, Long warehouse_id) throws Exception {
+        Set<PendingItem> items = task.getItems();
+        for (PendingItem item : items) {
+            Rack rack = rackRepository.findRackByNumberAndWarehouseId(
+                    item.getRackNumber(),
+                    warehouse_id
+            ).orElseThrow(() -> new Exception("Rack is not found"));
+            item.setRackId(rack.getId());
             item.setTask(task);
         }
     }
 
     private void setAuthor(Task task) throws Exception {
-        User author = userService.getUser().orElseThrow(() -> new Exception("User not found (author)"));
+        User author = userService.getUser();
         task.setAuthor(author);
     }
 

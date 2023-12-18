@@ -1,6 +1,5 @@
-package com.example.stockwise.item;
+package com.example.stockwise.items.itemPending;
 
-import com.example.stockwise.rack.Rack;
 import com.example.stockwise.task.Task;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,8 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Item {
-
+public class PendingItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -21,14 +19,10 @@ public class Item {
     private String name;
     private String measurement;
     private Long amount;
-
-    @ManyToOne
-    @JoinColumn(name = "rack_id")
-    private Rack rack;
+    private Long rackId;
+    private Long rackNumber;
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = true)
     private Task task;
-
-
 }

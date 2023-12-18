@@ -1,4 +1,4 @@
-package com.example.stockwise.services;
+package com.example.stockwise.main;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

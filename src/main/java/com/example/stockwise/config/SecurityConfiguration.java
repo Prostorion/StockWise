@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/v1/users/new", "/api/v1", "/api/v1/users", "/register.js", "/error").permitAll();
                     auth.requestMatchers("/api/v1/user", "/api/v1/warehouses/**", "/api/v1/warehouses/{id}").hasAnyAuthority("ADMIN", "WORKER", "MANAGER");
-                    auth.requestMatchers("/error/403").hasAuthority("NOONE");
+                    auth.requestMatchers("/error/403").hasAuthority("NONE");
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
                 .formLogin((form -> form

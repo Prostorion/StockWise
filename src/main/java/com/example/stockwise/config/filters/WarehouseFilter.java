@@ -1,7 +1,7 @@
 package com.example.stockwise.config.filters;
 
 
-import com.example.stockwise.services.MainService;
+import com.example.stockwise.main.MainService;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseRepository;
 import jakarta.servlet.FilterChain;

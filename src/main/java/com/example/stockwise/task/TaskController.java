@@ -50,15 +50,15 @@ public class TaskController {
         return ResponseEntity.ok("");
     }
 
-    @DeleteMapping("/{taskId}")
-    public ResponseEntity<?> deleteTask(@PathVariable Long id, @PathVariable Long taskId) {
-        try {
-            taskService.deleteTask(taskId, id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
-        }
-        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
-    }
+//    @DeleteMapping("/{taskId}")
+//    public ResponseEntity<?> deleteTask(@PathVariable Long id, @PathVariable Long taskId) {
+//        try {
+//            taskService.deleteTask(taskId, id);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
+//        }
+//        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
+//    }
 
     @PostMapping("/{taskId}/complete")
     public ResponseEntity<?> completeTAsk(@PathVariable Long id, @PathVariable Long taskId) {

@@ -1,6 +1,6 @@
 package com.example.stockwise.task;
 
-import com.example.stockwise.item.Item;
+import com.example.stockwise.items.itemPending.PendingItem;
 import com.example.stockwise.user.User;
 import com.example.stockwise.warehouse.Warehouse;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ public class Task {
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Set<Item> items;
+    private Set<PendingItem> items;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)

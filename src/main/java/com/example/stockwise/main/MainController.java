@@ -1,6 +1,5 @@
-package com.example.stockwise.controllers;
+package com.example.stockwise.main;
 
-import com.example.stockwise.services.MainService;
 import com.example.stockwise.user.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;

@@ -254,7 +254,7 @@ function convertTableToObjects() {
             name: inputs[0].value,
             amount: parseFloat(inputs[1].value),
             measurement: inputs[2].value,
-            rack: parseFloat(inputs[3].value)
+            rackNumber: parseFloat(inputs[3].value)
         };
 
         items.push(item);

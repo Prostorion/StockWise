@@ -37,7 +37,7 @@
                 <td th:text="${task.deadline.format(dateTimeFormatter)}"></td>
                 <td>
                     <p th:each="item : ${task.items}"
-                       th:text="${item.name} + ' - ' + ${item.amount} + ' ' + ${item.measurement} + ', Rack №' + ${item.rack.number}"></p>
+                       th:text="${item.name} + ' - ' + ${item.amount} + ' ' + ${item.measurement} + ', Rack №' + ${item.rackNumber}"></p>
                 </td>
                 <td th:text="${task.assignee.username}"></td>
                 <td th:text="${task.author.username + ' ' + task.creationDate.format(dateTimeFormatter)}"></td>
