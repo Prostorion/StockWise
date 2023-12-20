@@ -1,6 +1,8 @@
-package com.example.stockwise.task;
+package com.example.stockwise.task.order;
 
 import com.example.stockwise.items.ItemMapper;
+import com.example.stockwise.items.history.HistoryItem;
+import com.example.stockwise.items.history.HistoryRepository;
 import com.example.stockwise.items.item.Item;
 import com.example.stockwise.items.item.ItemService;
 import com.example.stockwise.items.itemPending.PendingItem;
@@ -11,7 +13,7 @@ import com.example.stockwise.user.UserService;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseService;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,14 +21,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final WarehouseService warehouseService;
     private final UserService userService;
     private final RackRepository rackRepository;
-
+    private final HistoryRepository historyRepository;
     private final ItemService itemService;
 
 
@@ -68,8 +70,26 @@ public class OrderServiceImpl implements OrderService {
         Set<PendingItem> pendingItems = order.getItems();
         Set<Item> items = pendingItems.stream().map(ItemMapper.INSTANCE::toItem).collect(Collectors.toSet());
         items.forEach(i -> i.setRack(rackRepository.findRackById(i.getRack().getId()).orElse(new Rack(-1L))));
+
+        saveHistory(items, order);
+
         itemService.saveItems(items);
         orderRepository.delete(order);
+    }
+
+    private void saveHistory(Set<Item> items, Order order) throws Exception {
+        for (Item item : items) {
+            HistoryItem historyItem = HistoryItem.builder()
+                    .username(userService.getUser().getUsername())
+                    .amount(item.getAmount())
+                    .type("Import")
+                    .name(item.getName())
+                    .measurement(item.getMeasurement())
+                    .timeOfAddition(LocalDateTime.now())
+                    .warehouse(order.getWarehouse())
+                    .build();
+            historyRepository.save(historyItem);
+        }
     }
 
 
@@ -97,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
                     warehouse_id
             ).orElseThrow(() -> new Exception("Rack is not found"));
             item.setRackId(rack.getId());
-            item.setTask(task);
+            item.setOrder(task);
         }
     }
 

@@ -17,12 +17,11 @@
 <div th:replace="~{fragments/header_template :: header}"></div>
 <div th:replace="~{fragments/warehouse_header_template:: warehouse_header}"></div>
 <div class="container my-2 px-3 py-3 text-center">
-    <h1 class="mx-auto my-3"> Tasks </h1>
+    <h1 class="mx-auto my-3"> Orders (import) </h1>
     <div class="col-md" id="content">
         <table class="table text-start table-bordered" id="table">
             <thead>
             <tr class="fw-bold">
-                <th>Type</th>
                 <th>Deadline</th>
                 <th>Items</th>
                 <th>Assignee</th>
@@ -33,7 +32,6 @@
             </thead>
             <tbody id="tableBody">
             <tr th:each="order : ${orderList}">
-                <td th:text="order"></td>
                 <td th:text="${order.deadline.format(dateTimeFormatter)}"></td>
                 <td>
                     <p th:each="item : ${order.items}"
@@ -42,7 +40,9 @@
                 <td th:text="${order.assignee.username}"></td>
                 <td th:text="${order.author.username + ' ' + order.creationDate.format(dateTimeFormatter)}"></td>
                 <td class="text-center">
-                    <button type="button" th:id="'completeTask ' + ${order.id}" class="btn btn-sm btn-outline-warning my-2 complete-button">Complete</button>
+                    <button type="button" th:id="'completeTask ' + ${order.id}"
+                            class="btn btn-sm btn-outline-warning my-2 complete-button">Complete
+                    </button>
                 </td>
                 <td class="text-center">
                     <a th:id="'deleteTask ' + ${order.id}" class="text-danger cursor-pointer delete-button">
@@ -56,11 +56,54 @@
             </tr>
             </tbody>
         </table>
-        <div id="resultDiv"></div>
-        <div>
-            <a th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks/new'">
-                <button type="button" id="getForm" class="btn btn-outline-warning my-2">Add new task</button>
-            </a>
+        <h1 class="mx-auto my-3"> Supplies (export) </h1>
+        <div class="col-md">
+            <table class="table text-start table-bordered" id="table2">
+                <thead>
+                <tr class="fw-bold">
+                    <th>Deadline</th>
+                    <th>Items</th>
+                    <th>Assignee</th>
+                    <th>Task author</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="tableBody2">
+                <tr th:each="supply : ${supplyList}">
+                    <td th:text="${supply.deadline.format(dateTimeFormatter)}"></td>
+                    <td>
+                        <p class="supplyItemP" th:each="item : ${supply.items}"
+                           th:text="${item.item_id + ' ' + item.amount}"></p>
+                    </td>
+                    <td th:text="${supply.assignee.username}"></td>
+                    <td th:text="${supply.author.username + ' ' + supply.creationDate.format(dateTimeFormatter)}"></td>
+                    <td class="text-center">
+                        <button type="button" th:id="'completeSupply ' + ${supply.id}"
+                                class="btn btn-sm btn-outline-warning my-2 complete-button-supply">Complete
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <a th:id="'deleteSupply ' + ${supply.id}" class="text-danger cursor-pointer delete-button-supply">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="resultDiv"></div>
+            <div>
+                <a th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks/order_new'" class="text-decoration-none">
+                    <button type="button" class="btn btn-outline-warning my-2">Add new order</button>
+                </a>
+                <a th:href="'/api/v1/warehouses/'+${warehouse.id}+'/tasks/supply_new'">
+                    <button type="button" class="btn btn-outline-warning my-2">Add new supply</button>
+                </a>
+            </div>
         </div>
     </div>
 </div>

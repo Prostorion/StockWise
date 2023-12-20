@@ -18,7 +18,7 @@ public interface ItemMapper {
     Item toItem(PendingItem pendingItem);
 
     @Named("rackIdToRack")
-    default Rack roleToString(Long rackId) throws Exception {
+    default Rack roleToString(Long rackId) {
         return new Rack(rackId, null, null, null);
     }
 
@@ -26,8 +26,9 @@ public interface ItemMapper {
     HistoryItem toHistoryItem(Item item);
 
     @Named("nullUsername")
-    default String nullUsername(Long id) throws Exception {
+    default String nullUsername(Long id) {
         return "";
     }
+
 
 }

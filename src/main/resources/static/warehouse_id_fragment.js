@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     tasks.href = main.href+"/tasks";
     users.href = main.href+"/users";
 
-    fetch("/api/rest/warehouses/" + warehouseNumber, {
+    fetch("/api/v1/warehouses/rest/" + warehouseNumber, {
         method: "GET", // You can change this to "GET" or other HTTP methods
     })
         .then((response) => {

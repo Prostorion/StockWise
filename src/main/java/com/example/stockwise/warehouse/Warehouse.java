@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -38,4 +39,25 @@ public class Warehouse {
             cascade = CascadeType.ALL)
     private Set<Rack> racks;
 
+    @Column(nullable = true)
+    private Long width;
+    @Column(nullable = true)
+    private Long height;
+    @Column(nullable = true)
+    private Long rackWidth;
+    @Column(nullable = true)
+    private Long rackHeight;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Warehouse warehouse = (Warehouse) o;
+        return Objects.equals(id, warehouse.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

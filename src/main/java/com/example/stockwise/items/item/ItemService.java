@@ -1,5 +1,8 @@
 package com.example.stockwise.items.item;
 
+import org.springframework.http.ResponseEntity;
+
+import java.util.Optional;
 import java.util.Set;
 
 public interface ItemService {
@@ -10,4 +13,6 @@ public interface ItemService {
     void deleteItem(Item item);
 
     void saveItems(Set<Item> items);
+
+    Item getItem(Long item_id, Long warehouse_id) throws Exception;
 }

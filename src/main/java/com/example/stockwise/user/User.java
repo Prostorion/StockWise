@@ -1,7 +1,7 @@
 package com.example.stockwise.user;
 
 import com.example.stockwise.role.Role;
-import com.example.stockwise.task.Order;
+import com.example.stockwise.task.order.Order;
 import com.example.stockwise.warehouse.Warehouse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

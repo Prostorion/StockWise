@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add task</title>
+    <link rel="icon" th:href="@{/icon.svg}" type="image/svg+xml">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body id="body" data-bs-theme="dark">
+<div th:replace="~{fragments/header_template :: header}"></div>
+<div class="container my-5  px-3 py-3 text-center ">
+    <div class=" mx-auto rounded border px-5 text-start">
+        <form action="" method="post" id="form">
+            <h1 class="text-center my-2">Create Supply</h1>
+            <div class="mb-3">
+                <label class="form-check-label mb-1" for="userSelect">Assign task to worker </label>
+                <select class="form-select" aria-label="Default select example" id="userSelect">
+                    <option th:each="current_user : ${userList}"
+                            th:text="${current_user.firstname} + ' ' + ${current_user.lastname + ' (' + current_user.username +')'}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-check-label" for="dateInput">Deadline</label>
+                <input type="datetime-local" id="dateInput" class="form-control" placeholder="dddd">
+            </div>
+            <div class="mb-3">
+                <div><label class="form-check-label mb-1">Items</label></div>
+                <table class="table text-start table-bordered" id="table">
+                    <thead>
+                    <tr class="fw-bold">
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <tr id="firstItemRow">
+                        <td class="align-middle h-100">
+                            <label>
+                                <select class="form-select">
+                                    <option th:each="item : ${itemList}" th:text="${item.name + ', Rack№' + item.rack}" th:id="'item ' + ${item.id}"></option>
+                                </select>
+                            </label>
+                        </td>
+                        <td class="align-middle h-100">
+                            <input type="number" class="form-control itemRackInput">
+                        </td>
+                        <td class="text-center align-middle last-cell">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="addItem" class="btn btn-sm btn-outline-warning my-2">Add item</button>
+
+            </div>
+
+        </form>
+    </div>
+    <button type="button" id="submitForm" class="btn btn-lg btn-outline-warning my-2">Create</button>
+
+    <div id="resultDiv"></div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/supply_new.js}"></script>
+
+</body>
+</html>

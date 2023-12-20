@@ -4,6 +4,7 @@ package com.example.stockwise.config;
 import com.example.stockwise.config.filters.WarehouseFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -56,7 +57,30 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/v1/users/new", "/api/v1", "/api/v1/users", "/register.js", "/error").permitAll();
-                    auth.requestMatchers("/api/v1/user", "/api/v1/warehouses/**", "/api/v1/warehouses/{id}").hasAnyAuthority("ADMIN", "WORKER", "MANAGER");
+                    auth.requestMatchers(HttpMethod.GET,
+                            "/api/v1/warehouses",
+                            "/api/v1/warehouses/{id}/**",
+                            "/api/rest/users/current").hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.POST,
+                            "/api/v1/warehouses/{id}/orders/{taskId}/complete",
+                            "/api/v1/warehouses/{id}/supplies/{taskId}/complete"
+                            ).hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
+                    auth.requestMatchers("/api/v1/user/**").hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
+                    auth.requestMatchers(
+                            "/api/v1/warehouses",
+                            "/api/v1/warehouses/{id}/**",
+                            "/api/rest/users/current").hasAnyAuthority("MANAGER", "ADMIN");
+                    auth.requestMatchers("/icon.svg",
+                            "/order_new.js",
+                            "/register.js",
+                            "/register_worker.js",
+                            "/supply_new.js",
+                            "/tasks.js",
+                            "/user_info_edit.js",
+                            "/users.js",
+                            "/warehouse_id_fragment.js",
+                            "/warehouses.js",
+                            "/api/rest/warehouses/{id}").hasAnyAuthority( "WORKER", "MANAGER", "ADMIN");
                     auth.requestMatchers("/error/403").hasAuthority("NONE");
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
@@ -73,7 +97,7 @@ public class SecurityConfiguration {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()))
-                .addFilterAfter(warehouseFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(warehouseFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

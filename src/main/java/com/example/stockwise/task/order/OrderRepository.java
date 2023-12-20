@@ -1,4 +1,4 @@
-package com.example.stockwise.task;
+package com.example.stockwise.task.order;
 
 import com.example.stockwise.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

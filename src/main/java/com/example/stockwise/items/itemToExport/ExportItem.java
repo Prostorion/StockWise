@@ -1,8 +1,7 @@
-package com.example.stockwise.items.item;
+package com.example.stockwise.items.itemToExport;
 
-import com.example.stockwise.rack.Rack;
-import com.example.stockwise.task.order.Order;
 import com.example.stockwise.task.supply.Supply;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,19 +12,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Item {
-
+public class ExportItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    private String name;
-    private String measurement;
     private Long amount;
 
+    private Long item_id;
+
     @ManyToOne
-    @JoinColumn(name = "rack_id")
-    private Rack rack;
-
-
+    @JoinColumn(name = "supply_id", nullable = true)
+    @JsonBackReference
+    private Supply supply;
 }

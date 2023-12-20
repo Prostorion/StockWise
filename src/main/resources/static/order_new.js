@@ -28,22 +28,13 @@ body.addEventListener("click", (event) => {
         event.preventDefault();
        if (validateInputs()){
            const items = convertTableToObjects();
-           let type;
-           if (document.getElementById("radioSupply").checked){
-               type = "Supply";
-           }
-           else{
-               type = "Order";
-           }
+
            const assignee = document.getElementById("userSelect").value.trim().split("(")[1].split(")")[0];
 
            const deadline = new Date(document.getElementById("dateInput").value);
-
+           deadline.setHours(deadline.getHours()+2);
            const task= {
                items: items,
-               taskType: {
-                   type: type
-               },
                assignee: {
                    username: assignee
                },

@@ -1,4 +1,4 @@
-package com.example.stockwise.task;
+package com.example.stockwise.task.order;
 
 import java.util.Set;
 

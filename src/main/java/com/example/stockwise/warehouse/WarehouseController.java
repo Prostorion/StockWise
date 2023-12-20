@@ -2,6 +2,7 @@ package com.example.stockwise.warehouse;
 
 import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,15 +13,11 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/api/v1/warehouses")
+@RequiredArgsConstructor
 public class WarehouseController {
 
-    UserService userService;
-    WarehouseService warehouseService;
-
-    public WarehouseController(UserService userService, WarehouseService warehouseService) {
-        this.userService = userService;
-        this.warehouseService = warehouseService;
-    }
+    private final UserService userService;
+    private final WarehouseService warehouseService;
 
     @GetMapping()
     public String warehouses(Model model) throws Exception {
@@ -57,11 +54,6 @@ public class WarehouseController {
         return "warehouse/warehouse_id";
     }
 
-    @GetMapping("/{id}/history")
-    public String warehousesSettings(@PathVariable Long id, Model model) throws Exception {
-        return "warehouse/history";
-    }
-
     @GetMapping("/{id}/users")
     public String warehouseUsers(@PathVariable Long id, Model model) throws Exception {
         Warehouse warehouse = warehouseService.getWarehouseById(id);
@@ -79,5 +71,10 @@ public class WarehouseController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
         }
+    }
+
+    @GetMapping("/rest/{id}")
+    public ResponseEntity<?> getWarehouseById(@PathVariable("id") Long id) throws Exception {
+        return new ResponseEntity<>(warehouseService.getWarehouseById(id), HttpStatusCode.valueOf(200));
     }
 }

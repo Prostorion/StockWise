@@ -2,6 +2,7 @@ package com.example.stockwise.rack;
 
 import com.example.stockwise.items.item.Item;
 import com.example.stockwise.warehouse.Warehouse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,11 +32,15 @@ public class Rack {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonIgnore
     private Set<Item> items;
 
     @ManyToOne
     @ToString.Exclude
     @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;
+
+
+
 
 }

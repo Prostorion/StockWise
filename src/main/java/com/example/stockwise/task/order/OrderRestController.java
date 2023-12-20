@@ -1,4 +1,4 @@
-package com.example.stockwise.task;
+package com.example.stockwise.task.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;

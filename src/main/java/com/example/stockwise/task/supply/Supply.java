@@ -1,12 +1,14 @@
-package com.example.stockwise.task;
+package com.example.stockwise.task.supply;
 
-import com.example.stockwise.items.itemPending.PendingItem;
+import com.example.stockwise.items.itemToExport.ExportItem;
 import com.example.stockwise.user.User;
 import com.example.stockwise.warehouse.Warehouse;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,16 +18,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "orders")
-public class Order {
-
+@Table(name = "supplies")
+public class Supply {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "supply", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private Set<PendingItem> items;
+    @JsonManagedReference
+    private Set<ExportItem> items;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id", nullable = false)

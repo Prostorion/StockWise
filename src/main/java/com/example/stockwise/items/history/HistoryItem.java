@@ -1,5 +1,6 @@
 package com.example.stockwise.items.history;
 
+import com.example.stockwise.warehouse.Warehouse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +25,8 @@ public class HistoryItem {
     private String measurement;
     private Long amount;
     private String username;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private Warehouse warehouse;
 }

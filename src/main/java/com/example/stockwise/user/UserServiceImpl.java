@@ -2,10 +2,11 @@ package com.example.stockwise.user;
 
 import com.example.stockwise.role.Role;
 import com.example.stockwise.role.RoleRepository;
-import com.example.stockwise.task.Order;
-import com.example.stockwise.task.OrderRepository;
+import com.example.stockwise.task.order.Order;
+import com.example.stockwise.task.order.OrderRepository;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -118,6 +119,12 @@ public class UserServiceImpl implements UserService {
 
         reassignToDefaultUser(orders);
 
+        user.getRoles().forEach(r -> {
+            user.getRoles().remove(r);
+        });
+        user.getWarehouses().forEach(w -> {
+            user.getWarehouses().remove(w);
+        });
         userRepository.delete(user);
     }
 

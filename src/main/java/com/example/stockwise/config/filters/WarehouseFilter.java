@@ -50,7 +50,7 @@ public class WarehouseFilter extends GenericFilterBean {
             Optional<Warehouse> warehouse = warehouseRepository.findById(requestedWarehouseId);
 
             if (warehouse.isEmpty() ||
-                    warehouseRepository.findAllByUserUsername(currentUser.getUsername()).contains(warehouse.get())
+                    !warehouseRepository.findAllByUserUsername(currentUser.getUsername()).contains(warehouse.get())
             ) {
                 if (request.getMethod().equals("GET")) {
                     response.sendRedirect("/error/403");
