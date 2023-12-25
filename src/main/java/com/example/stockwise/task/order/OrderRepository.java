@@ -14,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Set<Order> findAllByWarehouseIdOrderByDeadlineAsc(Long warehouse_id);
 
     Set<Order> findAllByAssignee(User assignee);
+
+    void deleteAllByWarehouseId(Long warehouse_id);
 }

@@ -15,4 +15,5 @@ public interface WarehouseService {
 
     void updateWarehouse(Long id, Warehouse warehouse) throws Exception;
 
+    void generateState(Long id, Warehouse warehouse) throws Exception;
 }

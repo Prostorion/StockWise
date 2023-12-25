@@ -1,31 +1,28 @@
 package com.example.stockwise.task.supply;
 
+import com.example.stockwise.graph.Edge;
 import com.example.stockwise.items.history.HistoryItem;
 import com.example.stockwise.items.history.HistoryRepository;
 import com.example.stockwise.items.item.Item;
 import com.example.stockwise.items.item.ItemRepository;
-import com.example.stockwise.items.item.ItemService;
-import com.example.stockwise.items.itemPending.PendingItem;
 import com.example.stockwise.items.itemToExport.ExportItem;
 import com.example.stockwise.items.itemToExport.ExportItemRepository;
-import com.example.stockwise.rack.Rack;
-import com.example.stockwise.rack.RackRepository;
+import com.example.stockwise.task.TaskService;
 import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SupplyServiceImpl implements SupplyService{
+public class SupplyServiceImpl implements SupplyService {
 
     private final SupplyRepository supplyRepository;
     private final WarehouseService warehouseService;
@@ -33,6 +30,8 @@ public class SupplyServiceImpl implements SupplyService{
     private final ItemRepository itemRepository;
     private final ExportItemRepository exportItemRepository;
     private final HistoryRepository historyRepository;
+    private final TaskService taskService;
+
     @Override
     @Transactional
     public void addSupply(Supply supply, Long id) throws Exception {
@@ -50,10 +49,15 @@ public class SupplyServiceImpl implements SupplyService{
     }
 
     @Override
+    public List<List<Edge>> getPath(Long taskId, Long id) throws Exception {
+        return taskService.getPath(taskId, id, false);
+    }
+
+    @Override
     @Transactional
     public void deleteSupply(Long taskId, Long id) throws Exception {
         Supply supply = supplyRepository.findById(taskId).orElseThrow(() -> new Exception("Supply not found"));
-        if (!supply.getWarehouse().getId().equals(id)){
+        if (!supply.getWarehouse().getId().equals(id)) {
             throw new Exception("Supply not found in this warehouse");
         }
         supplyRepository.delete(supply);
@@ -63,7 +67,7 @@ public class SupplyServiceImpl implements SupplyService{
     @Transactional
     public void completeSupply(Long taskId, Long id) throws Exception {
         Supply supply = supplyRepository.findById(taskId).orElseThrow(() -> new Exception("Supply not found"));
-        if (!supply.getWarehouse().getId().equals(id)){
+        if (!supply.getWarehouse().getId().equals(id)) {
             throw new Exception("Supply not found in this warehouse");
         }
         saveHistory(supply);
@@ -88,14 +92,13 @@ public class SupplyServiceImpl implements SupplyService{
     }
 
     private void changeItemsAmount(Supply supply) throws Exception {
-        Set<ExportItem> exportItems  = supply.getItems();
+        Set<ExportItem> exportItems = supply.getItems();
         for (ExportItem i : exportItems) {
             Item item = itemRepository.findById(i.getItem_id()).orElseThrow(() -> new Exception("item not found"));
             item.setAmount(item.getAmount() - i.getAmount());
-            if (item.getAmount() <= 0){
+            if (item.getAmount() <= 0) {
                 itemRepository.delete(item);
-            }
-            else{
+            } else {
                 itemRepository.save(item);
             }
         }
@@ -103,17 +106,17 @@ public class SupplyServiceImpl implements SupplyService{
 
     private void setItems(Supply supply, Long id) throws Exception {
         Set<ExportItem> items = supply.getItems();
-        for(var item : items){
-            if (items.stream().filter(i -> i.getItem_id().equals(item.getItem_id())).toList().size() > 1){
+        for (var item : items) {
+            if (items.stream().filter(i -> i.getItem_id().equals(item.getItem_id())).toList().size() > 1) {
                 throw new Exception("Several identical things are present");
             }
         }
         for (ExportItem i : items) {
             Item item = itemRepository.findById(i.getItem_id()).orElseThrow(() -> new Exception("item is not found"));
-            if (!item.getRack().getWarehouse().getId().equals(id)){
+            if (!item.getRack().getWarehouse().getId().equals(id)) {
                 throw new Exception("warehouse id is invalid");
             }
-            if (i.getAmount() > item.getAmount() || i.getAmount() < 1){
+            if (i.getAmount() > item.getAmount() || i.getAmount() < 1) {
                 throw new Exception("Change amount of " + item.getName() + " to [1;  " + item.getAmount() + "]");
             }
         }

@@ -11,4 +11,8 @@ public interface RackRepository extends JpaRepository<Rack, Long> {
     Optional<Rack> findRackByNumberAndWarehouseId(Long number, Long warehouse_id);
 
     Optional<Rack> findRackById(Long id);
+
+    void deleteByWarehouseId(Long warehouse_id);
+
+
 }

@@ -38,7 +38,7 @@ public class ItemController {
 
     @GetMapping("/{item_id}")
     @ResponseBody
-    public ResponseEntity<?> getItem(@PathVariable Long id, @PathVariable Long item_id){
+    public ResponseEntity<?> getItem(@PathVariable Long id, @PathVariable Long item_id) {
         try {
             Item item = itemservice.getItem(item_id, id);
             return new ResponseEntity<>(item, HttpStatusCode.valueOf(200));

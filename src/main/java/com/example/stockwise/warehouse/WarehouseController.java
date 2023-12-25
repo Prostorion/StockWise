@@ -51,6 +51,7 @@ public class WarehouseController {
 
     @GetMapping("/{id}")
     public String warehouse(@PathVariable Long id, Model model) throws Exception {
+        model.addAttribute(warehouseService.getWarehouseById(id));
         return "warehouse/warehouse_id";
     }
 
@@ -76,5 +77,22 @@ public class WarehouseController {
     @GetMapping("/rest/{id}")
     public ResponseEntity<?> getWarehouseById(@PathVariable("id") Long id) throws Exception {
         return new ResponseEntity<>(warehouseService.getWarehouseById(id), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/{id}/generate")
+    public String generateForm(@PathVariable("id") Long id) {
+        return "warehouse/generate_form";
+    }
+
+    @PostMapping("/{id}/generate")
+    @ResponseBody
+    public ResponseEntity<?> generateForm(@PathVariable("id") Long id, @RequestBody Warehouse warehouse) {
+
+        try {
+            warehouseService.generateState(id, warehouse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().build();
     }
 }

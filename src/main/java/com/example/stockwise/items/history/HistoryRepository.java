@@ -9,4 +9,6 @@ import java.util.Set;
 public interface HistoryRepository extends JpaRepository<HistoryItem, Long> {
 
     Set<HistoryItem> findAllByWarehouseIdOrderByTimeOfAdditionDesc(Long warehouse_id);
+
+    void deleteAllByWarehouseId(Long warehouse_id);
 }

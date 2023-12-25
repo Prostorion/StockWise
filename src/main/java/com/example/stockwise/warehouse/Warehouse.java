@@ -1,5 +1,6 @@
 package com.example.stockwise.warehouse;
 
+import com.example.stockwise.graph.Vertex;
 import com.example.stockwise.rack.Rack;
 import com.example.stockwise.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,13 @@ public class Warehouse {
             cascade = CascadeType.ALL)
     private Set<Rack> racks;
 
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToMany(mappedBy = "warehouse",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Vertex> vertices;
+
     @Column(nullable = true)
     private Long width;
     @Column(nullable = true)
@@ -47,6 +55,9 @@ public class Warehouse {
     private Long rackWidth;
     @Column(nullable = true)
     private Long rackHeight;
+
+    @Column(nullable = true)
+    private boolean hasState = false;
 
     @Override
     public boolean equals(Object o) {

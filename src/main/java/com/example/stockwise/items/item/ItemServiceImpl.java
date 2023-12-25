@@ -1,10 +1,8 @@
 package com.example.stockwise.items.item;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -50,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
     public Item getItem(Long item_id, Long warehouse_id) throws Exception {
 
         Item item = itemRepository.findById(item_id).orElseThrow(() -> new Exception("item not found"));
-        if(!item.getRack().getWarehouse().getId().equals(warehouse_id)){
+        if (!item.getRack().getWarehouse().getId().equals(warehouse_id)) {
             throw new Exception("item is not present in this warehouse");
         }
         return item;

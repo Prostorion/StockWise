@@ -1,8 +1,6 @@
 package com.example.stockwise.task.supply;
 
 
-import com.example.stockwise.task.order.Order;
-import com.example.stockwise.task.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class SupplyRestController {
 
     private final SupplyService supplyService;
+
     @PostMapping()
     public ResponseEntity<?> addSupply(@PathVariable Long id, @RequestBody Supply supply) {
         try {

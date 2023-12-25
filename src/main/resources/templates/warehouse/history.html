@@ -26,6 +26,7 @@
                 <th class="col">Amount</th>
                 <th class="col">Action</th>
                 <th class="col">DateTime</th>
+                <th class="col">Worker</th>
             </tr>
             </thead>
             <tbody id="tableBody">
@@ -34,6 +35,7 @@
                 <td th:text="${historyItem.amount}"></td>
                 <td th:text="${historyItem.type}"></td>
                 <td th:text="${historyItem.timeOfAddition.format(dateTimeFormatter)}"></td>
+                <td th:text="${historyItem.username}"></td>
             </tr>
             </tbody>
         </table>

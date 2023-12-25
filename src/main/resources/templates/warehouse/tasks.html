@@ -40,9 +40,15 @@
                 <td th:text="${order.assignee.username}"></td>
                 <td th:text="${order.author.username + ' ' + order.creationDate.format(dateTimeFormatter)}"></td>
                 <td class="text-center">
+                    <a class="text-decoration-none" th:href="'/api/v1/warehouses/'+${warehouse.id}+'/orders/'+${order.id}+'/path'">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-warning my-2">Path
+                        </button>
+                    </a>
                     <button type="button" th:id="'completeTask ' + ${order.id}"
                             class="btn btn-sm btn-outline-warning my-2 complete-button">Complete
                     </button>
+
                 </td>
                 <td class="text-center">
                     <a th:id="'deleteTask ' + ${order.id}" class="text-danger cursor-pointer delete-button">
@@ -79,12 +85,20 @@
                     <td th:text="${supply.assignee.username}"></td>
                     <td th:text="${supply.author.username + ' ' + supply.creationDate.format(dateTimeFormatter)}"></td>
                     <td class="text-center">
+                        <a th:href="'/api/v1/warehouses/'+${warehouse.id}+'/supplies/'+${supply.id}+'/path'" class="text-decoration-none">
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-warning my-2">Path
+                            </button>
+                        </a>
                         <button type="button" th:id="'completeSupply ' + ${supply.id}"
                                 class="btn btn-sm btn-outline-warning my-2 complete-button-supply">Complete
                         </button>
+
+
                     </td>
                     <td class="text-center">
-                        <a th:id="'deleteSupply ' + ${supply.id}" class="text-danger cursor-pointer delete-button-supply">
+                        <a th:id="'deleteSupply ' + ${supply.id}"
+                           class="text-danger cursor-pointer delete-button-supply">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>

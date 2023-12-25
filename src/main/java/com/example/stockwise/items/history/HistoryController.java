@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 public class HistoryController {
 
     private final HistoryService historyService;
+
     @GetMapping()
     public String warehousesSettings(@PathVariable Long id, Model model) throws Exception {
         model.addAttribute(historyService.getHistory(id));

@@ -1,8 +1,5 @@
 package com.example.stockwise.items.item;
 
-import org.springframework.http.ResponseEntity;
-
-import java.util.Optional;
 import java.util.Set;
 
 public interface ItemService {

@@ -19,7 +19,7 @@ public interface ItemMapper {
 
     @Named("rackIdToRack")
     default Rack roleToString(Long rackId) {
-        return new Rack(rackId, null, null, null);
+        return Rack.builder().id(rackId).build();
     }
 
     @Mapping(source = "id", target = "username", qualifiedByName = "nullUsername")

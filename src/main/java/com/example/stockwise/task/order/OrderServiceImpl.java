@@ -1,5 +1,7 @@
 package com.example.stockwise.task.order;
 
+import com.example.stockwise.graph.Edge;
+import com.example.stockwise.graph.EdgeRepository;
 import com.example.stockwise.items.ItemMapper;
 import com.example.stockwise.items.history.HistoryItem;
 import com.example.stockwise.items.history.HistoryRepository;
@@ -8,15 +10,16 @@ import com.example.stockwise.items.item.ItemService;
 import com.example.stockwise.items.itemPending.PendingItem;
 import com.example.stockwise.rack.Rack;
 import com.example.stockwise.rack.RackRepository;
+import com.example.stockwise.task.TaskService;
 import com.example.stockwise.user.User;
 import com.example.stockwise.user.UserService;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
     private final RackRepository rackRepository;
     private final HistoryRepository historyRepository;
     private final ItemService itemService;
+    private final EdgeRepository edgeRepository;
+    private final TaskService taskService;
 
 
     @Override
@@ -64,7 +69,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    public List<List<Edge>> getPath(Long taskId, Long id) throws Exception {
+        return taskService.getPath(taskId, id, true);
+    }
+
+
+    @Override
     public void completeOrder(Long orderId, Long warehouseId) throws Exception {
         Order order = getOrderByIdAndWarehouseId(orderId, warehouseId);
         Set<PendingItem> pendingItems = order.getItems();
@@ -72,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
         items.forEach(i -> i.setRack(rackRepository.findRackById(i.getRack().getId()).orElse(new Rack(-1L))));
 
         saveHistory(items, order);
-
+        items.forEach(i -> rackRepository.save(i.getRack()));
         itemService.saveItems(items);
         orderRepository.delete(order);
     }

@@ -47,7 +47,7 @@ body.addEventListener("click", (event) => {
                     div.appendChild(a);
                 })
                 .catch(error => {
-                    div.innerHTML = error.message;
+                    div.innerHTML = JSON.parse(error.message).message;
                 });
         }
 

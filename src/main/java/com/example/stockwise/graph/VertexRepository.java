@@ -1,4 +1,4 @@
-package com.example.stockwise.task.supply;
+package com.example.stockwise.graph;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface SupplyRepository extends JpaRepository<Supply, Long> {
-
-    Set<Supply> findAllByWarehouseIdOrderByDeadline(Long warehouse_id);
+public interface VertexRepository extends JpaRepository<Vertex, Long> {
 
     void deleteAllByWarehouseId(Long warehouse_id);
+
+    Set<Vertex> findAllByWarehouseId(Long warehouse_id);
+
 }

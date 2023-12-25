@@ -6,7 +6,6 @@ import com.example.stockwise.task.order.Order;
 import com.example.stockwise.task.order.OrderRepository;
 import com.example.stockwise.warehouse.Warehouse;
 import com.example.stockwise.warehouse.WarehouseRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

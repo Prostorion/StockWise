@@ -64,7 +64,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST,
                             "/api/v1/warehouses/{id}/orders/{taskId}/complete",
                             "/api/v1/warehouses/{id}/supplies/{taskId}/complete"
-                            ).hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
+                    ).hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
                     auth.requestMatchers("/api/v1/user/**").hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
                     auth.requestMatchers(
                             "/api/v1/warehouses",
@@ -80,7 +80,10 @@ public class SecurityConfiguration {
                             "/users.js",
                             "/warehouse_id_fragment.js",
                             "/warehouses.js",
-                            "/api/rest/warehouses/{id}").hasAnyAuthority( "WORKER", "MANAGER", "ADMIN");
+                            "/generate_form.js",
+                            "/warehouse_id.js",
+
+                            "/api/rest/warehouses/{id}").hasAnyAuthority("WORKER", "MANAGER", "ADMIN");
                     auth.requestMatchers("/error/403").hasAuthority("NONE");
                     auth.requestMatchers("/**").hasAuthority("ADMIN");
                 })
