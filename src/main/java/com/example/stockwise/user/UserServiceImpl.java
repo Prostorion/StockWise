@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         if (user.getWarehouses().stream().noneMatch(w -> w.getId().equals(warehouse_id))) {
             throw new Exception("User is not allowed to this warehouse");
         }
-        if (user.getRoles().stream().map(Role::getName).noneMatch(n -> n.equals("WORKER"))) {
+        if (user.getRoles().stream().map(Role::getName).noneMatch("WORKER"::equals)) {
             throw new Exception("Can't delete not WORKER");
         }
         Set<Order> orders = orderRepository.findAllByAssignee(user);

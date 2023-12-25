@@ -269,7 +269,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     private static Rack createRack(Long number, String direction, Long x, Long y, Warehouse warehouse) {
         Rack rack = null;
-        if (direction.equals("down")) {
+        if ("down".equals(direction)) {
             rack = new Rack(null,
                     number, x, y, direction,
                     Vertex.builder()
@@ -280,7 +280,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                             .warehouse(warehouse)
                             .build(), new HashSet<>(),
                     warehouse);
-        } else if (direction.equals("up")) {
+        } else if ("up".equals(direction)) {
             rack = new Rack(null,
                     number, x, y, direction,
                     Vertex.builder()
@@ -291,7 +291,7 @@ public class WarehouseServiceImpl implements WarehouseService {
                             .warehouse(warehouse)
                             .build(), new HashSet<>(),
                     warehouse);
-        } else if (direction.equals("right")) {
+        } else if ("right".equals(direction)) {
             rack = new Rack(null,
                     number, x, y, direction,
                     Vertex.builder()
