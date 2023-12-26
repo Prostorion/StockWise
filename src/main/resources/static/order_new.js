@@ -60,7 +60,7 @@ body.addEventListener("click", (event) => {
                    location.replace(currentLocation.substring(0, (currentLocation.lastIndexOf('/'))));
                })
                .catch(error => {
-                   div.innerHTML = JSON.parse(error.message).message;
+                   div.textContent = error.message;
                });
        }
 
